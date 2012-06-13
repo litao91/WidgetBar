@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,7 +28,7 @@ public class DockView extends View {
 	private WindowManager windowManager;
 	
 	private Paint paint;
-	private Paint PaintMinimized;
+	private Paint paintMinimized;
 	private Paint paintVisible;
 	
 	private float currentX;
@@ -51,8 +52,20 @@ public class DockView extends View {
 	private void drawDock(Canvas mCanvas) {
 		//create a path
 		Path testPath = new Path();
+		testPath.moveTo((float)screenHeight,0.0F);
+		testPath.lineTo((float)screenHeight, (float)screenWidth);
+		testPath.lineTo((float)screenHeight, (float)screenWidth);
+		testPath.close();
+		if(this.paintMinimized == null) {
+			paintMinimized = new Paint();
+			paintMinimized.setAntiAlias(true);
+			paintMinimized.setStyle(Paint.Style.FILL);
+			paintMinimized.setColor(0);
+		}
+		mCanvas.drawPath(testPath, paintMinimized);
 		
 	}
+	
 	
 	@Override
 	protected void onDraw(Canvas mCanvas) {
@@ -64,8 +77,11 @@ public class DockView extends View {
 		this.windowManager.getDefaultDisplay().getMetrics(this.metrics);
 		this.windowManager.addView(this, this.mLayoutParams);
 		
-		this.screenWidth = this.windowManager.getDefaultDisplay().getWidth();
-		this.screenHeight = this.windowManager.getDefaultDisplay().getHeight();
+		Point outSize = new Point();
+		this.windowManager.getDefaultDisplay().getSize(outSize);
+		this.screenWidth = outSize.x;
+		this.screenHeight = outSize.y;
+		
 	}
 	
 }
