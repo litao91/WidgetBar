@@ -8,8 +8,11 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -23,7 +26,12 @@ public class DockView extends View {
 	
 	//Managers
 	private ActivityManager activityManager;
-	private WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams();
+	private WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams(
+			150,50,
+			WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+		    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+		    	|WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+		    PixelFormat.TRANSLUCENT);
 	private PackageManager packageManager;
 	private WindowManager windowManager;
 	
@@ -41,9 +49,6 @@ public class DockView extends View {
 	private DisplayMetrics metrics = new DisplayMetrics();
 	public DockView() {
 		super(AppContext.getInstance().getContext());
-		this.mLayoutParams.flags = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
-		this.mLayoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-		this.mLayoutParams.gravity = 48;
 		
 		this.packageManager =  AppContext.getInstance().getContext().getPackageManager();
 		this.activityManager = ((ActivityManager)AppContext.getInstance().getContext().getSystemService("activity"));
@@ -51,19 +56,19 @@ public class DockView extends View {
 	
 	private void drawDock(Canvas mCanvas) {
 		//create a path
+		Log.d("DockView", "drawing");
 		Path testPath = new Path();
 		testPath.moveTo((float)screenHeight,0.0F);
-		testPath.lineTo((float)screenHeight, (float)screenWidth);
 		testPath.lineTo((float)screenHeight, (float)screenWidth);
 		testPath.close();
 		if(this.paintMinimized == null) {
 			paintMinimized = new Paint();
 			paintMinimized.setAntiAlias(true);
 			paintMinimized.setStyle(Paint.Style.FILL);
-			paintMinimized.setColor(0);
+			paintMinimized.setARGB(100,100,100,100);
 		}
-		mCanvas.drawPath(testPath, paintMinimized);
-		
+		//mCanvas.drawPath(testPath, paintMinimized);
+		mCanvas.drawRect(0,0,150,50,paintMinimized);
 	}
 	
 	
@@ -73,15 +78,16 @@ public class DockView extends View {
 	}
 	
 	public void show() {
+		Log.d("DockView", "Showing");
 		this.windowManager = ((WindowManager)super.getContext().getApplicationContext().getSystemService("window"));
 		this.windowManager.getDefaultDisplay().getMetrics(this.metrics);
-		this.windowManager.addView(this, this.mLayoutParams);
 		
 		Point outSize = new Point();
 		this.windowManager.getDefaultDisplay().getSize(outSize);
 		this.screenWidth = outSize.x;
 		this.screenHeight = outSize.y;
-		
+		this.mLayoutParams.gravity = Gravity.BOTTOM;
+		this.windowManager.addView(this, this.mLayoutParams);
 	}
 	
 }

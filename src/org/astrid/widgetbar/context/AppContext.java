@@ -11,6 +11,9 @@ public class AppContext {
 	public Context getContext() {
 		return this.context;
 	}
+	public void init(Context context) {
+		this.context = context;
+	}
 	public boolean isInitialized() {
 		if(this.context!=null){
 			return true;
