@@ -1,6 +1,6 @@
 package org.astrid.widgetbar;
 
-import org.astrid.widgetbar.ui.DockView;
+import org.astrid.widgetbar.ui.WidgetBarView;
 
 import android.app.Service;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class widgetBarService extends Service {
-	private DockView dockView;
+	private WidgetBarView widgetbarView;
 	private static final int NOTIFICATION_ID = 34321266;
 
 	@Override
@@ -29,10 +29,10 @@ public class widgetBarService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 //		int i = super.onStartCommand(intent, flags, startId);
 		Log.d("widgetBarService", "starting Command");
-		if(dockView==null) {
-			dockView = new DockView();
+		if(widgetbarView==null) {
+			widgetbarView = new WidgetBarView();
 		}
-		this.dockView.show();
+		this.widgetbarView.show();
 		return START_STICKY;
 	}
 }

@@ -1,8 +1,12 @@
 package org.astrid.widgetbar.ui;
 
+import org.astrid.widgetbar.appwidgethost.WidgetbarAppWidgetHost;
 import org.astrid.widgetbar.context.AppContext;
 
+import android.R;
 import android.app.ActivityManager;
+import android.appwidget.AppWidgetManager;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -16,7 +20,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
-public class DockView extends View {
+public class WidgetBarView extends View {
 	private static final int HIGH_DIP_STATUS_BAR_HEIGHT = 38; 
 	private static final int LOW_DPI_STATUS_BAR_HEIGHT = 19;
 	private static final int MEDIUM_DPI_STATUS_BAR_HEIGHT = 25;
@@ -45,9 +49,12 @@ public class DockView extends View {
 	
 	
 	
+	
+	
 	private Matrix resusableMatrix = new Matrix();
 	private DisplayMetrics metrics = new DisplayMetrics();
-	public DockView() {
+	
+	public WidgetBarView() {
 		super(AppContext.getInstance().getContext());
 		
 		this.packageManager =  AppContext.getInstance().getContext().getPackageManager();
@@ -56,7 +63,7 @@ public class DockView extends View {
 	
 	private void drawDock(Canvas mCanvas) {
 		//create a path
-		Log.d("DockView", "drawing");
+		Log.d("WidgetBarView", "drawing");
 		Path testPath = new Path();
 		testPath.moveTo((float)screenHeight,0.0F);
 		testPath.lineTo((float)screenHeight, (float)screenWidth);
@@ -72,13 +79,14 @@ public class DockView extends View {
 	}
 	
 	
+	
 	@Override
 	protected void onDraw(Canvas mCanvas) {
 		drawDock(mCanvas);
 	}
 	
 	public void show() {
-		Log.d("DockView", "Showing");
+		Log.d("WidgetBarView", "Showing");
 		this.windowManager = ((WindowManager)super.getContext().getApplicationContext().getSystemService("window"));
 		this.windowManager.getDefaultDisplay().getMetrics(this.metrics);
 		
