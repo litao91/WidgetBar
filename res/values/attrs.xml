@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- Orientation of a widget -->
+    <attr name="direction">
+        <!-- Vertical widgeg -->
+        <enum name="vertical" value="0" />
+        <!-- Horizontal widget -->
+        <enum name="horizontal" value="1"/>
+    </attr>
+    <skip />
+    <!-- Workspace specific attributes. These attributes are used to
+         customize the workspace in XML files -->
+    <declare-styleable name="Workspace">
+        <!-- The first session the workspace should display -->
+        <attr name="defaultScreen" format="integer"/>
+    </declare-styleable>
+    
+    <!-- Attributes of the cell layout-->
+    <declare-styleable name="CellLayout">
+        <attr name="cellWidth" format="dimension" />
+        <attr name="cellHeight" format="dimension" />
+        <attr name="longAxisStartPadding" format="dimension"/>
+        <attr name="longAxisEndPadding" format="dimension" />
+        <attr name="shortAxisStartPadding" format="dimension" />
+        <attr name="shortAxisEndPadding" format="dimension" />
+        <!-- number of cells on the short axis of the CellLayout -->
+        <attr name="shortAxisCells" format="integer"/>
+        <!-- number of cells on the long axis of teh CellLayout -->
+        <attr name="longAxisCells" format="integer"/>
+    </declare-styleable>
+</resources>

@@ -102,4 +102,14 @@ public class WidgetBarActivity extends Activity {
 		hostView.setAppWidget(appWidgetId, appWidgetInfo);
 		mLayout.addView(hostView);
 	}
+	@Override 
+	protected void onStart() {
+		super.onStart();
+		mAppWidgetHost.startListening();
+	}
+	@Override
+	protected void onStop() {
+		super.onStop();
+		mAppWidgetHost.stopListening();
+	}
 }
