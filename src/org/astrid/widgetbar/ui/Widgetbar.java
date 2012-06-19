@@ -20,7 +20,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
-public class WidgetBarView extends View {
+public class Widgetbar extends View {
 	private static final int HIGH_DIP_STATUS_BAR_HEIGHT = 38; 
 	private static final int LOW_DPI_STATUS_BAR_HEIGHT = 19;
 	private static final int MEDIUM_DPI_STATUS_BAR_HEIGHT = 25;
@@ -49,7 +49,7 @@ public class WidgetBarView extends View {
 	private Matrix resusableMatrix = new Matrix();
 	private DisplayMetrics metrics = new DisplayMetrics();
 	
-	public WidgetBarView() {
+	public Widgetbar() {
 		super(AppContext.getInstance().getContext());
 		
 		this.packageManager =  AppContext.getInstance().getContext().getPackageManager();

@@ -22,7 +22,7 @@ import android.widget.Scroller;
  * A Workspace is meant to be used with a fixed width only
  */
 
-public class WidgetBarWorkspace extends ViewGroup {
+public class WidgetbarWorkspace extends ViewGroup {
     private static final int INVALID_SESSION = -1;
     /**
      * The velocity at which a fling gesture will cause us to snap to next screen
@@ -46,7 +46,7 @@ public class WidgetBarWorkspace extends ViewGroup {
     
     private int[] mTempCell = new int[2];
     
-    private WidgetBarView mBarView;
+    private Widgetbar mBarView;
     
     private float mLastMotionX;
     private float mLastMotionY;
@@ -56,7 +56,7 @@ public class WidgetBarWorkspace extends ViewGroup {
      * @param context The applicatin's context
      * @param attrs The attributes set containing the Workspace's customization values
      */
-    public WidgetBarWorkspace(Context context, AttributeSet attrs) {
+    public WidgetbarWorkspace(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
     
@@ -66,7 +66,7 @@ public class WidgetBarWorkspace extends ViewGroup {
      * @param attrs The attributes set containing the Workspace's customization values
      * @param defStyle Unused.
      */
-    public WidgetBarWorkspace(Context context, AttributeSet attrs, int defStyle) {
+    public WidgetbarWorkspace(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         //Get the attributes
         TypedArray a  = context.obtainStyledAttributes(attrs, R.styleable.Workspace, defStyle,0);
@@ -175,8 +175,11 @@ public class WidgetBarWorkspace extends ViewGroup {
     void addInSession(View child, int session, int x, int y, int spanX, int spanY) {
         addInSession(child, session, x, y, spanX, spanY, false);
     }
+    void addInSession(View child, int x, int y, int spanX, int spanY, boolean insert) {
+    	addInSession(child,mCurrentSession,x,y,spanX, spanY, insert);
+    }
     /**
-     * Adds teh specified child int the specified session
+     * Adds the specified child int the specified session
      * @param insert When true, the child is inserted at the beginning of the children list.
      */
     void addInSession(View child, int session, int x, int y, int spanX, int spanY, boolean insert) {
@@ -200,7 +203,7 @@ public class WidgetBarWorkspace extends ViewGroup {
         addInSession(view, widget.session, widget.cellX, widget.cellY, widget.spanX, widget.spanY, false);
     }
     void addWidget(View view, Widget widget, boolean insert) {
-        addInScreen(view, widget, widget.cellX, widget.cellY, widget.spanX, widget.spany, insert);
+        addInSession(view, widget.session, widget.cellX, widget.cellY, widget.spanX, widget.spanY, insert);
     }
     
     CellLayout.CellInfo findAllVacantCells(boolean[] occupied) {
@@ -247,7 +250,7 @@ public class WidgetBarWorkspace extends ViewGroup {
             postInvalidate();
         }else if(mNextSession != INVALID_SESSION) {
             mCurrentSession = Math.max(0, Math.min(mNextSession, getChildCount() - 1));
-            WidgetBarView.setSession(mCurrentSession);
+            Widgetbar.setSession(mCurrentSession);
         }
     }
     /*
@@ -466,7 +469,7 @@ public class WidgetBarWorkspace extends ViewGroup {
     	 super.onRestoreInstanceState(savedState.getSuperState());
     	 if(savedState.currentSession != -1) {
     		 mCurrentSession = savedState.currentSession;
-    		 WidgetBarView.setSession(mCurrentSession);
+    		 Widgetbar.setSession(mCurrentSession);
     	 }
      }
      

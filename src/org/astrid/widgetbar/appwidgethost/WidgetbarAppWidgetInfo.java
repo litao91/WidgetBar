@@ -1,10 +1,11 @@
 package org.astrid.widgetbar.appwidgethost;
 
+
 import android.appwidget.AppWidgetHostView;
 import android.content.ContentValues;
 
 
-public class WidgetBarAppWidgetInfo extends ItemInfo {
+public class WidgetbarAppWidgetInfo extends ItemInfo {
 	/**
 	 * Identifier for this widget when talking with AppWidgetManager for updates
 	 */
@@ -14,14 +15,14 @@ public class WidgetBarAppWidgetInfo extends ItemInfo {
 	 * created until WidgetBar knows it's needed.
 	 */
 	AppWidgetHostView hostView = null;
-	WidgetBarAppWidgetInfo(int appWidgetId) {
-		itemType = WidgetBarSettings.Favoriates.ITEM_TYPE_APPWIDGE;
+	WidgetbarAppWidgetInfo(int appWidgetId) {
+		itemType = WidgetbarSettings.Favoriates.ITEM_TYPE_APPWIDGE;
 		this.appWidgetId = appWidgetId;
 	}
 	@Override
 	void onAddToDatabase(ContentValues values) {
 		super.onAddToDatabase(values);
-		values.put(WidgetBarSettings.Favoriates.APPWIDGET_ID, appWidgetId);
+		values.put(WidgetbarSettings.Favoriates.APPWIDGET_ID, appWidgetId);
 	}
 	@Override
 	public String toString() {

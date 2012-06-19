@@ -1,9 +1,10 @@
 package org.astrid.widgetbar.appwidgethost;
 
 import android.provider.BaseColumns;
+import android.net.Uri;
 
 
-public class WidgetBarSettings {
+public class WidgetbarSettings {
 	public static interface BaseBarColumns extends BaseColumns {
 		public static final String TITLE = "title";
 		public static final String ITEM_TYPE = "itemType";
@@ -12,6 +13,11 @@ public class WidgetBarSettings {
 		
 	}
 	public static final class Favoriates implements BaseBarColumns {
+		/**
+		 * The content:// style URL fo this table
+		 */
+		static final Uri CONTENT_URI = Uri.parse("content://"+
+		 )
 		public static final String SPACE_SESSION = "space_session";
 		public static final String CELLX = "cellX";
 		public static final String CELLY = "cellY";
