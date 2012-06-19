@@ -13,7 +13,7 @@
          customize the workspace in XML files -->
     <declare-styleable name="Workspace">
         <!-- The first session the workspace should display -->
-        <attr name="defaultScreen" format="integer"/>
+        <attr name="defaultSession" format="integer"/>
     </declare-styleable>
     
     <!-- Attributes of the cell layout-->

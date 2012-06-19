@@ -46,11 +46,6 @@ public class WidgetBarView extends View {
 	private float currentX;
 	private float currentY;
 	private int visibleHeight;
-	
-	
-	
-	
-	
 	private Matrix resusableMatrix = new Matrix();
 	private DisplayMetrics metrics = new DisplayMetrics();
 	
@@ -96,6 +91,9 @@ public class WidgetBarView extends View {
 		this.screenHeight = outSize.y;
 		this.mLayoutParams.gravity = Gravity.BOTTOM;
 		this.windowManager.addView(this, this.mLayoutParams);
+	}
+	public static void setSession(int sessionNum) {
+		
 	}
 	
 }
