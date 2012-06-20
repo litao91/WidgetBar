@@ -1,7 +1,7 @@
 package org.astrid.widgetbar.ui;
 
 import org.astrid.widgetbar.R;
-import org.astrid.widgetbar.appwidgethost.Widget;
+import org.astrid.widgetbar.model.Widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -22,7 +22,7 @@ import android.widget.Scroller;
  * A Workspace is meant to be used with a fixed width only
  */
 
-public class WidgetbarWorkspace extends ViewGroup {
+public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
     private static final int INVALID_SESSION = -1;
     /**
      * The velocity at which a fling gesture will cause us to snap to next screen

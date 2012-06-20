@@ -1,4 +1,5 @@
-package org.astrid.widgetbar.appwidgethost;
+package org.astrid.widgetbar.model;
+
 
 
 import android.appwidget.AppWidgetHostView;
@@ -15,7 +16,7 @@ public class WidgetbarAppWidgetInfo extends ItemInfo {
 	 * created until WidgetBar knows it's needed.
 	 */
 	AppWidgetHostView hostView = null;
-	WidgetbarAppWidgetInfo(int appWidgetId) {
+	public WidgetbarAppWidgetInfo(int appWidgetId) {
 		itemType = WidgetbarSettings.Favoriates.ITEM_TYPE_APPWIDGE;
 		this.appWidgetId = appWidgetId;
 	}

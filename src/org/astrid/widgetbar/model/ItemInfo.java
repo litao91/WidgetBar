@@ -1,4 +1,5 @@
-package org.astrid.widgetbar.appwidgethost;
+package org.astrid.widgetbar.model;
+
 
 
 import android.content.ContentValues;

@@ -1,7 +1,11 @@
 package org.astrid.widgetbar.ui;
 
+import java.util.ArrayList;
+
 import org.astrid.widgetbar.appwidgethost.WidgetbarAppWidgetHost;
 import org.astrid.widgetbar.context.AppContext;
+import org.astrid.widgetbar.model.ItemInfo;
+import org.astrid.widgetbar.model.WidgetbarAppWidgetInfo;
 
 import android.R;
 import android.app.ActivityManager;
@@ -24,6 +28,8 @@ public class Widgetbar extends View {
 	private static final int HIGH_DIP_STATUS_BAR_HEIGHT = 38; 
 	private static final int LOW_DPI_STATUS_BAR_HEIGHT = 19;
 	private static final int MEDIUM_DPI_STATUS_BAR_HEIGHT = 25;
+	
+	public static final int APPWIDGET_HOST_ID = 1024;
 	
 	private int screenHeight;
 	private int screenWidth;
@@ -93,6 +99,16 @@ public class Widgetbar extends View {
 		this.windowManager.addView(this, this.mLayoutParams);
 	}
 	public static void setSession(int sessionNum) {
+		
+	}
+	public void onItemsLoaded(ArrayList<ItemInfo> uiWidgetbarItems,
+			ArrayList<WidgetbarAppWidgetInfo> uiWidgetbarWidgets) {
+		// TODO Auto-generated method stub
+	}
+
+	public void onWidgetbarItemsLoded(ArrayList<ItemInfo> mWidgetbarItems,
+			ArrayList<WidgetbarAppWidgetInfo> mWidgetbarAppWidgets) {
+		// TODO Auto-generated method stub
 		
 	}
 	

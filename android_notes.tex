@@ -1,0 +1,63 @@
+\documentclass[11pt, a4paper]{book}
+\usepackage{parskip}
+\usepackage[top=1.5cm, left=1cm, right=1cm, bottom=2.5cm]{geometry}
+\begin{document}
+\chapter{Scroller}
+\section{Class Overview}
+This class encapsulates scrolling. The duration of the scroll can be passed
+ in the constructor and specifies the maximum time that the scrolling animation
+should take. Past this time, the scrolling is automatically moved to its final
+stage and \verb|computeScrollOffset()| will always return false to indicate taht
+scrolling is over.
+
+\section{AppWdiget}
+\section{AppWidgetManager}
+Updates AppWidgetState, gets information about installed AppWidgetProviders and
+other Widget related state.
+\section{AppWidgetHost}
+Provides the \emph{interaction} with the AppWidget source for apps, like the
+home screen, that want to embed AppWidget in their UI.
+
+You need to privde a hostid at construction, the hostId is a number of your 
+choosing that should be internally unique to your app (that is, you don't 
+need to worry about collisions with other apps on the system).  It's designed 
+for cases where you want two unique AppWidgetHosts inside of the same 
+application, so the system can optimize and only send updates to actively 
+listening hosts. 
+
+
+\section{AppWidgetHostView}
+Provides teh glue to show AppWidgetViews. Offers automatic animation between
+updates, and will try recycling old views for each incoming.
+
+\chapter{Content Providers}
+\section{Overview}
+Content providers manage access to a \emph{structured set of data}. They
+encapsulate the data, and provide mechanisms for defining data security. Content
+providers are the standard interface that \emph{connets data in one process with
+code running in another process.}
+
+Use \verb|ContentResolver| Object in application's Context to communicate with
+the provider as a client. 
+
+\verb|ContentResolver| object communicates with the provider object, an instance
+of a class that implements \emph{ContentProvider}. The provider object receives
+data requests from clients. 
+
+A content provider manages access to a central repository of data. A provider is
+part of an Android application, which ofen privides its own UI for working with
+the data. 
+
+However, content providers are primarily intended to be \emph{used by other
+applications}, which access teh provider using a provider client object. 
+
+\section{Content URIs}
+A content URI is a URI that indentifies data in a provider. Content URIs include
+the symbolic name of teh entire provider (its authority) and name that points to
+a table (a path).
+
+\section{ContentResolver}
+\begin{description}
+\item[notifyChange] Notify registered obsevers that a row was updated. 
+\end{description}
+\end{document
