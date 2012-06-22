@@ -30,7 +30,7 @@ public class widgetBarService extends Service {
 //		int i = super.onStartCommand(intent, flags, startId);
 		Log.d("widgetBarService", "starting Command");
 		if(widgetbarView==null) {
-			widgetbarView = new Widgetbar();
+			widgetbarView = Widgetbar.getInstance();
 		}
 		this.widgetbarView.show();
 		return START_STICKY;

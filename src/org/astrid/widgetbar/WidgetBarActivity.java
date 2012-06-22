@@ -29,6 +29,7 @@ public class WidgetBarActivity extends Activity {
 	private WidgetbarAppWidgetHost mAppWidgetHost;
 	private LinearLayout mLayout;
 	private Widgetbar mWidgetbar;
+	private CellLayout.CellInfo mAddItemCellInfo;
 	
 	private final int[] mCellCoordinates = new int[2];
     @Override
@@ -105,7 +106,10 @@ public class WidgetBarActivity extends Activity {
 			if(requestCode == REQUEST_PICK_APPWIDGET) {
 				configureWidget(data);
 			}else if(requestCode == REQUEST_CREATE_APPWIDGET){
-				addAppWidget(data);
+				if(mAddItemCellInfo==null) {
+					mAddItemCellInfo = new CellLayout.CellInfo();
+				}
+				addAppWidget(data, mAddItemCellInfo,true );
 			}
 		} else if(requestCode == RESULT_CANCELED && data != null) {
 			int appWidgetId = data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
