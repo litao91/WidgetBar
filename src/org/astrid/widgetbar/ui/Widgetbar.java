@@ -76,7 +76,6 @@ public class Widgetbar{
 	private static int mCurrentSession = DEFAULT_SESSION;
 	
 	private View mOverlayBarView;
-	private View mDragLayout;
 	private static Widgetbar mInstance;
 	
 	private Widgetbar() {
@@ -99,7 +98,7 @@ public class Widgetbar{
 	}
 	
 	private void setUpViews() {
-		mDragLayout = mOverlayBarView.findViewById(R.id.drag_layout);
+		mDragLayer = (DragLayer)mOverlayBarView.findViewById(R.id.drag_layout);
 		final DragLayer dragLayer = mDragLayer;
 		mWorkspace = (WidgetbarWorkspace) dragLayer.findViewById(R.id.workspace);
 		final WidgetbarWorkspace workspace = mWorkspace;

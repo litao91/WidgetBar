@@ -5,7 +5,6 @@ import org.astrid.widgetbar.appwidgethost.WidgetbarAppWidgetHost;
 import org.astrid.widgetbar.context.AppContext;
 import org.astrid.widgetbar.model.WidgetbarAppWidgetInfo;
 import org.astrid.widgetbar.model.WidgetbarModel;
-import org.astrid.widgetbar.model.WidgetbarSettings;
 import org.astrid.widgetbar.ui.CellLayout;
 import org.astrid.widgetbar.ui.Widgetbar;
 
@@ -15,6 +14,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -135,7 +135,11 @@ public class WidgetBarActivity extends Activity {
 			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 			startActivityForResult(intent, REQUEST_CREATE_APPWIDGET);
 		}else {
-			createWidget(data);
+			if(mAddItemCellInfo==null) {
+				mAddItemCellInfo = new CellLayout.CellInfo();
+			}
+			addAppWidget(data, mAddItemCellInfo,true );
+			//createWidget(data);
 		}
 	}
 	

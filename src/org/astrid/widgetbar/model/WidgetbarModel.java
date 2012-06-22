@@ -172,6 +172,7 @@ public class WidgetbarModel {
 		item.cellY = cellY;
 		final ContentValues values = new ContentValues();
 		final ContentResolver cr = context.getContentResolver();
+		Log.d("WidgetbarModel", "Resolver is "+cr);
 		item.onAddToDatabase(values);
 		Uri result = cr.insert(notify?WidgetbarSettings.Favoriates.CONTENT_URI:
 			WidgetbarSettings.Favoriates.CONTENT_URI_NO_NOTIFICATION, values);
