@@ -3,6 +3,11 @@ package org.astrid.widgetbar;
 
 import org.astrid.widgetbar.appwidgethost.WidgetbarAppWidgetHost;
 import org.astrid.widgetbar.context.AppContext;
+import org.astrid.widgetbar.model.WidgetbarAppWidgetInfo;
+import org.astrid.widgetbar.model.WidgetbarModel;
+import org.astrid.widgetbar.model.WidgetbarSettings;
+import org.astrid.widgetbar.ui.CellLayout;
+import org.astrid.widgetbar.ui.Widgetbar;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetHostView;
@@ -23,10 +28,15 @@ public class WidgetBarActivity extends Activity {
 	private AppWidgetManager mAppWidgetManager;
 	private WidgetbarAppWidgetHost mAppWidgetHost;
 	private LinearLayout mLayout;
+	private Widgetbar mWidgetbar;
+	
+	private final int[] mCellCoordinates = new int[2];
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        mWidgetbar = Widgetbar.getInstance();
+        
         this.startService(new Intent(this, widgetBarService.class));
 		mAppWidgetManager = AppWidgetManager.getInstance(AppContext.getInstance().getContext());
 		mAppWidgetHost = new WidgetbarAppWidgetHost(AppContext.getInstance().getContext(), APPWIDGET_HOST_ID);
@@ -37,7 +47,47 @@ public class WidgetBarActivity extends Activity {
 				selectWidget();
 			}
 		});
+		
     }
+    void addAppWidget(Intent data, CellLayout.CellInfo cellInfo, boolean insertAtFirst) {
+    	Bundle extras = data.getExtras();
+    	int appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1); 
+    	
+    	AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(appWidgetId);
+    	//calculate the grid spans needed to fit this widget
+    	CellLayout layout = (CellLayout) mWidgetbar.getWorkspace().getChildAt(cellInfo.session);
+    	int[] spans = layout.rectToCell(appWidgetInfo.minWidth, appWidgetInfo.minHeight);
+    	
+    	//Try finding the open space on the widgetbar to fit this widget
+    	final int[] xy = mCellCoordinates;
+    	if(!findSlot(cellInfo, xy, spans[0], spans[1])) return;
+    	
+    	//Build Widgetbar-specific widget info and save to database
+    	WidgetbarAppWidgetInfo widgetbarInfo = new WidgetbarAppWidgetInfo(appWidgetId);
+    	widgetbarInfo.spanX = spans[0];
+    	widgetbarInfo.spanY = spans[1];
+    	
+    	WidgetbarModel.addItemToDatabase(this, widgetbarInfo,
+    			mWidgetbar.getWorkspace().getCurrentSession(),
+    			xy[0], xy[1], false);
+    	mWidgetbar.getModel().addWidgetbarAppWidget(widgetbarInfo);
+    	widgetbarInfo.hostView = mAppWidgetHost.createView(this, appWidgetId, appWidgetInfo);
+    	widgetbarInfo.hostView.setAppWidget(appWidgetId, appWidgetInfo);
+    	widgetbarInfo.hostView.setTag(widgetbarInfo);
+    	mWidgetbar.getWorkspace().addInCurrentSession(widgetbarInfo.hostView, 
+    			xy[0], xy[1], widgetbarInfo.spanX, widgetbarInfo.spanY, insertAtFirst);
+    }
+    	
+    private boolean findSlot(CellLayout.CellInfo cellInfo, int[] xy, int spanX, int spanY) {
+    	if(!cellInfo.findCellForSpan(xy, spanX, spanY)) {
+    		cellInfo = mWidgetbar.getWorkspace().findAllVacantCells(null);
+    		if(!cellInfo.findCellForSpan(xy, spanX, spanY)) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+    
     /**
      * Start an activity to let user select which widget he wants to add to the app.
      */
@@ -55,7 +105,7 @@ public class WidgetBarActivity extends Activity {
 			if(requestCode == REQUEST_PICK_APPWIDGET) {
 				configureWidget(data);
 			}else if(requestCode == REQUEST_CREATE_APPWIDGET){
-				createWidget(data);
+				addAppWidget(data);
 			}
 		} else if(requestCode == RESULT_CANCELED && data != null) {
 			int appWidgetId = data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
@@ -84,6 +134,7 @@ public class WidgetBarActivity extends Activity {
 			createWidget(data);
 		}
 	}
+	
 	/**
 	 * @param data The selected widget info
 	 * Create the widget itself. Use the Widget ID and AppWidgetProviderInfo to ask to the
@@ -101,15 +152,5 @@ public class WidgetBarActivity extends Activity {
 		AppWidgetHostView hostView = mAppWidgetHost.createView(this, appWidgetId, appWidgetInfo);
 		hostView.setAppWidget(appWidgetId, appWidgetInfo);
 		mLayout.addView(hostView);
-	}
-	@Override 
-	protected void onStart() {
-		super.onStart();
-		mAppWidgetHost.startListening();
-	}
-	@Override
-	protected void onStop() {
-		super.onStop();
-		mAppWidgetHost.stopListening();
 	}
 }

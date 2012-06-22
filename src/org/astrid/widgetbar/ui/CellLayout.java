@@ -846,7 +846,7 @@ out:            for (int i = x; i < x + spanX - 1 && x < xCount; i++) {
 	/**
 	 * A class that store the information of cells
 	 */
-	static final class CellInfo implements ContextMenu.ContextMenuInfo {
+	public static final class CellInfo implements ContextMenu.ContextMenuInfo {
 		/**
 		 * Recycle the vacant cells instances because up to several hundlers can
 		 * be instanciated when the user long press an empty cell.
@@ -917,7 +917,7 @@ out:            for (int i = x; i < x + spanX - 1 && x < xCount; i++) {
 		int spanX;
 		int spanY;
 		//The session that the cell belong to
-		int session;
+		public int session;
 		boolean valid;
 		
 		//Maintain a list of vacant cells
@@ -968,7 +968,7 @@ out:            for (int i = x; i < x + spanX - 1 && x < xCount; i++) {
 		 * 
 		 * @return True if a vacant cell of the specified dimension was found, false otherwise.
 		 */
-		boolean findCellForSpan(int[] cellXY, int spanX, int spanY) {
+		public boolean findCellForSpan(int[] cellXY, int spanX, int spanY) {
 			return findCellForSpan(cellXY, spanX, spanY, true);
 		}
 		

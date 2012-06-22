@@ -25,10 +25,13 @@ for cases where you want two unique AppWidgetHosts inside of the same
 application, so the system can optimize and only send updates to actively 
 listening hosts. 
 
-
 \section{AppWidgetHostView}
 Provides teh glue to show AppWidgetViews. Offers automatic animation between
 updates, and will try recycling old views for each incoming.
+\section{AppWidgetProviderInfo}
+Describes the meta data for an installed AppWidgetProvider. The fields
+correspond to the fields in the \verb|appwidget-provider>| xml tag.
+
 
 \chapter{Content Providers}
 \section{Overview}
@@ -55,8 +58,34 @@ applications}, which access teh provider using a provider client object.
 A content URI is a URI that indentifies data in a provider. Content URIs include
 the symbolic name of teh entire provider (its authority) and name that points to
 a table (a path).
+\section{Handler}
+A Handler allows you to send and process Message and Runnable objects associated
+with a thread's MessageQueue
 
-\section{ContentResolver}
+Each instance is aassociated with a single thread and that thread's message
+queue.
+
+When you create a Handler, it is bound to the thread/message queue of the thread
+that is creating it -- from that point on, it will deliver messages and
+runnables to that message queue and execute them as they come out of the message
+queue. 
+
+Two main uses:
+\begin{enumerate}
+\item To schedule messages and runnable to be executed as some point in the
+future;
+\item To enqueue an action to be performed on a different thread than your own.
+\end{enumerate}
+
+The \verb|post(Runnable)| allow you to enqueue Runnable objects to be called by
+the messager queue when they are received;
+
+The \verb|sendMessage(Message)| allow you to enqueue a Message object
+containning a bundle of data that will be processed by the Handler's
+\verb|handleMessage(Messsage)| method.
+
+When posting or sending to a Hnadler, you can either allow the item to be
+processed as soon as the message queue is ready to do so, or specify a dely. 
 \begin{description}
 \item[notifyChange] Notify registered obsevers that a row was updated. 
 \end{description}

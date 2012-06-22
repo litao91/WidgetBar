@@ -10,6 +10,4 @@ public class widgetBarApplication extends Application {
 		super.onCreate();
 		AppContext.getInstance().init(this);
 	}
-	
-
 }

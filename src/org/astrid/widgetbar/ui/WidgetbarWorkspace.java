@@ -122,7 +122,7 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
     /**
      * @return The index of the currently displayed session
      */
-    int getCurrentSession() {
+    public int getCurrentSession() {
         return mCurrentSession;
     }
     
@@ -159,7 +159,7 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
      * @param spanX The number of cells spanned horizontally by the child
      * @param spanY The number of cells spanned vertically by the child
      */
-    void addInCurrentSession(View child, int x, int y, int spanX, int spanY, boolean insert) {
+    public void addInCurrentSession(View child, int x, int y, int spanX, int spanY, boolean insert) {
         addInSession(child, mCurrentSession, x, y, spanX, spanY, insert);
     }
     /**
@@ -206,7 +206,8 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
         addInSession(view, widget.session, widget.cellX, widget.cellY, widget.spanX, widget.spanY, insert);
     }
     
-    CellLayout.CellInfo findAllVacantCells(boolean[] occupied) {
+    
+   public CellLayout.CellInfo findAllVacantCells(boolean[] occupied) {
         CellLayout group = (CellLayout) getChildAt(mCurrentSession);
         if(group != null) {
             return group.findAllVacantCells(occupied, null);

@@ -15,7 +15,8 @@ public class WidgetbarAppWidgetInfo extends ItemInfo {
 	 * View that holds this widget after it's been created. This view isn't 
 	 * created until WidgetBar knows it's needed.
 	 */
-	AppWidgetHostView hostView = null;
+	public AppWidgetHostView hostView = null;
+	
 	public WidgetbarAppWidgetInfo(int appWidgetId) {
 		itemType = WidgetbarSettings.Favoriates.ITEM_TYPE_APPWIDGE;
 		this.appWidgetId = appWidgetId;
@@ -28,5 +29,8 @@ public class WidgetbarAppWidgetInfo extends ItemInfo {
 	@Override
 	public String toString() {
 		return Integer.toString(appWidgetId);
+	}
+	public int getAppWidgetId() {
+		return appWidgetId;
 	}
 }

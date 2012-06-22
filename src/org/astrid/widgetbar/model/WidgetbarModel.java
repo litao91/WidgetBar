@@ -8,7 +8,10 @@ import org.astrid.widgetbar.context.AppContext;
 import org.astrid.widgetbar.ui.Widgetbar;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Process;
 import android.util.Log;
 
@@ -19,8 +22,7 @@ import android.util.Log;
  * for the WidgetBar
  */
 public class WidgetbarModel {
-	private boolean mApplicationLoaded;
-	private boolean mBarItemsloaded;
+	private static final int APPLICATION_NOT_RESPONDING_TIMEOUT = 5000;
 	
 	private Thread mWidgetbarLoaderThread;
 	private WidgetbarItemsLoader mWidgetbarItemsLoader;
@@ -51,11 +53,11 @@ public class WidgetbarModel {
 			} catch (InterruptedException e) {
 				// Nothing to do basically
 			}
-			//If the thread we are intrrupting was tasked to load the list of
-			// applications make sure we keep that information in the new loader
-			//spwaned below
-			//
 		}
+		mWidgetbarItemsLoaded = false;
+		mWidgetbarItemsLoader = new WidgetbarItemsLoader(widgetbar);
+		mWidgetbarLoaderThread = new Thread(mWidgetbarItemsLoader, "Widgetbar Items Loader");
+		mWidgetbarLoaderThread.start();
 	}
 	
 	boolean isWidgetbarLoaded() {
@@ -129,11 +131,69 @@ public class WidgetbarModel {
 				final ArrayList<ItemInfo> uiWidgetbarItems = new ArrayList<ItemInfo>(widgetbarItems);
 				final ArrayList<WidgetbarAppWidgetInfo> uiWidgetbarWidgets = 
 						new ArrayList<WidgetbarAppWidgetInfo>(widgetbarAppWidgets);
-				//Note: better to pot it on UI thread
-				widgetbar.onItemsLoaded(uiWidgetbarItems, uiWidgetbarWidgets);
+				//Note: better to put it on UI thread
+				widgetbar.onWidgetbarItemsLoded(uiWidgetbarItems, uiWidgetbarWidgets);
 			}
 			mRunning = false;
 		}
+	}
+	/**
+	 * Remove any WidgetbarAppWigetHostView references in our widgets.
+	 */
+	private void unbindAppWidgetHostViews(ArrayList<WidgetbarAppWidgetInfo> appWidgets) {
+		if(appWidgets != null) {
+			final int count = appWidgets.size();
+			for(int i=0; i < count; i++) {
+				WidgetbarAppWidgetInfo widgetbarInfo = appWidgets.get(i);
+				widgetbarInfo.hostView = null;
+			}
+			
+		}
+	}
+	/**
+	 * Add a widget to the bar
+	 */
+	public void addWidgetbarAppWidget(WidgetbarAppWidgetInfo info) {
+		mWidgetbarAppWidgets.add(info);
+	}
+	/**
+	 * Remove a widget from the bar
+	 */
+	void removeWidgetbarAppWidget(WidgetbarAppWidgetInfo info) {
+		mWidgetbarAppWidgets.remove(info);
+	}
+	
+	/**
+	 * Add an item to the database
+	 */
+	public static void addItemToDatabase(Context context, ItemInfo item, int session, int cellX, int cellY, boolean notify) {
+		item.session = session;
+		item.cellX = cellX;
+		item.cellY = cellY;
+		final ContentValues values = new ContentValues();
+		final ContentResolver cr = context.getContentResolver();
+		item.onAddToDatabase(values);
+		Uri result = cr.insert(notify?WidgetbarSettings.Favoriates.CONTENT_URI:
+			WidgetbarSettings.Favoriates.CONTENT_URI_NO_NOTIFICATION, values);
+		if(result!=null){
+			item.id = Integer.parseInt(result.getPathSegments().get(1));
+		}
+	}
+	/**
+	 * update an item to the database
+	 */ 
+	static void updateItemInDatabase(Context context, ItemInfo item) {
+		final ContentValues  values = new ContentValues();
+		final ContentResolver cr = context.getContentResolver();
+		item.onAddToDatabase(values);
+		cr.update(WidgetbarSettings.Favoriates.getContentUri(item.id,false), values, null, null);
+	}
+	/**
+	 * Remove the specified item from the database
+	 */
+	static void deleteItemFromDatabase(Context context, ItemInfo item) {
+		final ContentResolver cr = context.getContentResolver();
+		cr.delete(WidgetbarSettings.Favoriates.getContentUri(item.id, false), null, null);
 	}
 	
 }
