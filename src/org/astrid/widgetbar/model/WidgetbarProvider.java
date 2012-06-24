@@ -162,7 +162,7 @@ public class WidgetbarProvider extends ContentProvider {
 					"spanY INTEGER," +
 					"itemType INTEGER," +
 					"appWidgetId INTEGER NOT NULL DEFAULT -1," +
-					"uri TEXT," +
+					"uri TEXT" +
 					");");
 			//Database was just created, so wipe any previous widgets.
 			if(mAppWidgetHost != null) {

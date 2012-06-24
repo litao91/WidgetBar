@@ -3,5 +3,7 @@
 
     <string name="hello">Hello World, WidgetBarActivity!</string>
     <string name="app_name">WidgetBar</string>
+    <string name="perm_write">Read settings</string>
+    <string name="perm_read">Write settings</string>
 
 </resources>

@@ -5,6 +5,17 @@
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="15" />
+    <permission
+        android:name="org.astrid.widgetbar.permission.WRITE_SETTING"
+        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
+        android:protectionLevel="normal" 
+        android:label="@string/perm_write"/>
+    <permission
+        android:name="org.astrid.widgetbar.permission.READ_SETTING"
+        android:permissionGroup="android.permission-group.SYStEM_TOOLS"
+        android:protectionLevel="normal"
+        android:label="@string/perm_read"/>
+    
     <uses-permission
          android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <use-permission
@@ -13,6 +24,10 @@
         android:name="android.permission.VIBERATE" />
     <use-permission
         android:name="android.permission.EXPAND_STATUS_BAR" />
+    <use-permission
+        android:name="org.astrid.widgetbar.permission.READ_SETTINGS"/>
+    <use-permission
+        android:name="org.astrid.widgetbar.permission.WRITE_SETTINGS"/>
     
     <application
         android:icon="@drawable/ic_launcher"
@@ -35,6 +50,10 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
          </receiver>
+    	<provider
+       		android:name=".model.WidgetbarProvider"
+        	android:authorities="org.astrid.widgetbar.settings"
+        	android:writePermission="org.astrid.widgetbar.permission.WRTIE_SETTINGS"
+        	android:readPermission="org.astrid.widgetbar.permission.READ_SETTINGS"/>
     </application>
-         
 </manifest>

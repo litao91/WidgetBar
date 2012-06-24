@@ -39,7 +39,7 @@ public class WidgetbarModel {
 	/**
 	 * Load all of the items on the bar, currently widgets only
 	 */
-	void loadWidgetbarItems(boolean isLaunching, Widgetbar widgetbar) {
+	public void loadWidgetbarItems(boolean isLaunching, Widgetbar widgetbar) {
 		if(isLaunching && isWidgetbarLoaded()) {
 			widgetbar.onWidgetbarItemsLoded(mWidgetbarItems, mWidgetbarAppWidgets);
 			return;
