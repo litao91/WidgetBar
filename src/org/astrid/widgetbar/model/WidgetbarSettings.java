@@ -22,7 +22,7 @@ public class WidgetbarSettings {
 				"?" + WidgetbarProvider.PARAMETER_NOTIFY + "=true");
 		static final Uri CONTENT_URI_NO_NOTIFICATION = Uri.parse("content://"+WidgetbarProvider.AUTHORITY + "/" + WidgetbarProvider.TABLE_FAVORITES +
 				"?" + WidgetbarProvider.PARAMETER_NOTIFY + "=false");
-		public static final String SPACE_SESSION = "space_session";
+		public static final String SESSION = "session";
 		public static final String CELLX = "cellX";
 		public static final String CELLY = "cellY";
 		public static final String SPANX = "spanX";

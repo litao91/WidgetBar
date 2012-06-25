@@ -9,8 +9,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class widgetBarService extends Service {
-	private Widgetbar widgetbarView;
-	private static final int NOTIFICATION_ID = 34321266;
+	private Widgetbar widgetbar;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -29,10 +28,10 @@ public class widgetBarService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 //		int i = super.onStartCommand(intent, flags, startId);
 		Log.d("widgetBarService", "starting Command");
-		if(widgetbarView==null) {
-			widgetbarView = Widgetbar.getInstance();
+		if(widgetbar==null) {
+			widgetbar = Widgetbar.getInstance();
 		}
-		this.widgetbarView.show();
+		this.widgetbar.show();
 		return START_STICKY;
 	}
 }

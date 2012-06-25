@@ -60,7 +60,7 @@ public class ItemInfo {
 	 */   
 	void onAddToDatabase(ContentValues values) {
 		values.put(WidgetbarSettings.BaseBarColumns.ITEM_TYPE, itemType);
-		values.put(WidgetbarSettings.Favoriates.SPACE_SESSION, session);
+		values.put(WidgetbarSettings.Favoriates.SESSION, session);
 		values.put(WidgetbarSettings.Favoriates.CELLX, cellX);
 		values.put(WidgetbarSettings.Favoriates.CELLY, cellY);
 		values.put(WidgetbarSettings.Favoriates.SPANX, spanX);

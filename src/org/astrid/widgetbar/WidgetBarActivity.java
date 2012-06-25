@@ -59,9 +59,16 @@ public class WidgetBarActivity extends Activity {
     	CellLayout layout = (CellLayout) mWidgetbar.getWorkspace().getChildAt(cellInfo.session);
     	int[] spans = layout.rectToCell(appWidgetInfo.minWidth, appWidgetInfo.minHeight);
     	
+    	
     	//Try finding the open space on the widgetbar to fit this widget
     	final int[] xy = mCellCoordinates;
-    	if(!findSlot(cellInfo, xy, spans[0], spans[1])) return;
+    	if(!findSlot(cellInfo, xy, spans[0], spans[1])) {
+    		Log.d("WidgetbarActivity", "Cannot find enough space");
+    		return;
+    	}
+    	
+    	Log.d("WidgetbarAcitivity", "Adding AppWidget of spans: ("+spans[0] + ", " +spans[1] + 
+    			"), in position (" + xy[0] + ", " + xy[1] + ")");
     	
     	//Build Widgetbar-specific widget info and save to database
     	WidgetbarAppWidgetInfo widgetbarInfo = new WidgetbarAppWidgetInfo(appWidgetId);
@@ -132,7 +139,9 @@ public class WidgetBarActivity extends Activity {
 		if(appWidgetInfo.configure != null) {
 			Intent intent = 
 					new Intent(AppWidgetManager.ACTION_APPWIDGET_CONFIGURE);
+			intent.setComponent(appWidgetInfo.configure);
 			intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+			
 			startActivityForResult(intent, REQUEST_CREATE_APPWIDGET);
 		}else {
 			if(mAddItemCellInfo==null) {

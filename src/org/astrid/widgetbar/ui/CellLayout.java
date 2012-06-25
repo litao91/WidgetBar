@@ -10,6 +10,7 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -742,6 +743,7 @@ out:            for (int i = x; i < x + spanX - 1 && x < xCount; i++) {
 	    return flat;
 	}
 	private void findOccupiedCells(int xCount, int yCount, boolean[][] occupied, View ignoreView) {
+				
 	    for (int x = 0; x < xCount; x++) {
 	        for (int y = 0; y < yCount; y++) {
 	            occupied[x][y] = false;

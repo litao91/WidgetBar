@@ -100,7 +100,7 @@ public class WidgetbarModel {
 				final int idIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates._ID);
 				final int intentIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.INTENT);
 				final int appWidgetIdIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.APPWIDGET_ID);
-				final int sessionIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.SPACE_SESSION);
+				final int sessionIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.SESSION);
 				final int cellXIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.CELLX); 
 				final int cellYIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.CELLY);
 				final int spanXIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.SPANX);

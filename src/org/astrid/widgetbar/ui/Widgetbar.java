@@ -16,8 +16,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Handler;
@@ -43,6 +41,7 @@ public class Widgetbar{
     private static final Object sLock = new Object();
     private static final WidgetbarModel sModel = new WidgetbarModel();
     private LayoutInflater mInflater;
+    private boolean isShown = false;
     
     private DragLayer mDragLayer;
     private WidgetbarWorkspace mWorkspace;
@@ -54,24 +53,12 @@ public class Widgetbar{
     private int screenWidth;
     //Managers
     private ActivityManager mActivityManager;
-    private WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams(
-            150,50,
-            WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                |WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-            PixelFormat.TRANSLUCENT);
+    private WindowManager.LayoutParams mLayoutParams; 
     private PackageManager mPackageManager;
     private WindowManager windowManager;
     private WidgetbarAppWidgetHost mAppWidgetHost;
     
-    private Paint paint;
-    private Paint paintMinimized;
-    private Paint paintVisible;
     
-    private float currentX;
-    private float currentY;
-    private int visibleHeight;
-    private Matrix resusableMatrix = new Matrix();
     private DisplayMetrics metrics = new DisplayMetrics();
     private static int mCurrentSession = DEFAULT_SESSION;
     
@@ -104,7 +91,6 @@ public class Widgetbar{
         mWorkspace = (WidgetbarWorkspace) dragLayer.findViewById(R.id.workspace);
         final WidgetbarWorkspace workspace = mWorkspace;
         dragLayer.setDragScoller(workspace);
-        
     }
     
     private void bindAppWidgets(Widgetbar.WidgetbarBinder binder,
@@ -156,16 +142,25 @@ public class Widgetbar{
     */
     
     public void show() {
-        Log.d("WidgetBarView", "Showing");
-        this.windowManager = (WindowManager)mOverlayBarView.getContext().getApplicationContext().getSystemService("window");
-        this.windowManager.getDefaultDisplay().getMetrics(this.metrics);
+    	if(!isShown) {
+    		Log.d("WidgetBarView", "Showing");
+        	this.windowManager = (WindowManager)mOverlayBarView.getContext().getApplicationContext().getSystemService("window");
+        	this.windowManager.getDefaultDisplay().getMetrics(this.metrics);
         
-        Point outSize = new Point();
-        this.windowManager.getDefaultDisplay().getSize(outSize);
-        this.screenWidth = outSize.x;
-        this.screenHeight = outSize.y;
-        this.mLayoutParams.gravity = Gravity.BOTTOM;
-        this.windowManager.addView(mOverlayBarView, this.mLayoutParams);
+        	Point outSize = new Point();
+        	this.windowManager.getDefaultDisplay().getSize(outSize);
+        	this.screenWidth = outSize.x;
+        	this.screenHeight = outSize.y;
+        	mLayoutParams = new WindowManager.LayoutParams(
+        		screenWidth,screenHeight/2,
+        		WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+        		WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                	|WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                PixelFormat.TRANSLUCENT);
+        	this.mLayoutParams.gravity = Gravity.BOTTOM;
+        	this.windowManager.addView(mOverlayBarView, this.mLayoutParams);
+        	isShown = true;
+    	}
     }
     public static void setSession(int sessionNum) {
         synchronized(sLock) {
@@ -200,6 +195,7 @@ public class Widgetbar{
         static final int MESSAGE_BIND_APPWIDGETS = 0x1;
         private final LinkedList<WidgetbarAppWidgetInfo> mAppWidgets;
         private final WeakReference<Widgetbar> mWidgetbar;
+        
         WidgetbarBinder(Widgetbar widgetbar,
                 ArrayList<WidgetbarAppWidgetInfo> appWidgets) {
             mWidgetbar = new WeakReference<Widgetbar>(widgetbar);
