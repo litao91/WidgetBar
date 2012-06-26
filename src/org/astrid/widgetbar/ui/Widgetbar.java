@@ -19,7 +19,6 @@ import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Message;
 import android.os.MessageQueue;
 import android.util.DisplayMetrics;
@@ -31,14 +30,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 public class Widgetbar{
-    private static final int HIGH_DIP_STATUS_BAR_HEIGHT = 38; 
-    private static final int LOW_DPI_STATUS_BAR_HEIGHT = 19;
-    private static final int MEDIUM_DPI_STATUS_BAR_HEIGHT = 25;
     
     static final int SESSION_COUNT = 3;
     static final int DEFAULT_SESSION = 1;
     static final int NUMBER_CELLS_X = 4;
-    static final int NUMBER_CELLS_Y =4;
+    static final int NUMBER_CELLS_Y =3;
     
     private static final Object sLock = new Object();
     private static final WidgetbarModel sModel = new WidgetbarModel();
@@ -48,7 +44,6 @@ public class Widgetbar{
     private DragLayer mDragLayer;
     private WidgetbarWorkspace mWorkspace;
     private AppWidgetManager mAppWidgetManager;
-    private static HandlerThread uiThread = new HandlerThread("UIHandler");
     
     private WidgetbarBinder mBinder;
     
@@ -81,9 +76,13 @@ public class Widgetbar{
         mAppWidgetHost.startListening();
         mOverlayBarView = (DragLayer)mInflater.inflate(R.layout.widgetbar, null);
         setUpViews();
+        
         startLoaders();
-        uiThread.start();
     }
+    public WidgetbarAppWidgetHost getAppWidgetHost() {
+    	return mAppWidgetHost;
+    }
+    
     public static Widgetbar getInstance() {
         if(mInstance == null) {
             mInstance = new Widgetbar();
@@ -111,6 +110,7 @@ public class Widgetbar{
             item.hostView.setAppWidget(appWidgetId, appWidgetInfo);
             item.hostView.setTag(item);
             workspace.addInSession(item.hostView, item.session, item.cellX, item.cellY, item.spanX, item.spanY);
+            //Lod.d("Widgetbar", "Adding items: spanX="
             workspace.requestLayout();
             
             binder.obtainMessage(WidgetbarBinder.MESSAGE_BIND_APPWIDGETS).sendToTarget();

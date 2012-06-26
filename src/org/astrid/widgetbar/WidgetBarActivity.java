@@ -29,7 +29,6 @@ public class WidgetBarActivity extends Activity {
 	private WidgetbarAppWidgetHost mAppWidgetHost;
 	private LinearLayout mLayout;
 	private Widgetbar mWidgetbar;
-	private CellLayout.CellInfo mAddItemCellInfo;
 	
 	private final int[] mCellCoordinates = new int[2];
     @Override
@@ -40,7 +39,7 @@ public class WidgetBarActivity extends Activity {
         
         this.startService(new Intent(this, widgetBarService.class));
 		mAppWidgetManager = AppWidgetManager.getInstance(AppContext.getInstance().getContext());
-		mAppWidgetHost = new WidgetbarAppWidgetHost(AppContext.getInstance().getContext(), APPWIDGET_HOST_ID);
+		mAppWidgetHost = mWidgetbar.getAppWidgetHost();
 		mLayout = (LinearLayout)findViewById(R.id.main_layout);
 		Button selectButton = (Button)findViewById(R.id.select_button);
 		selectButton.setOnClickListener(new OnClickListener() {
@@ -48,8 +47,13 @@ public class WidgetBarActivity extends Activity {
 				selectWidget();
 			}
 		});
-		
     }
+    
+    /**
+     * Add a widget to the workspace
+     * @param data The intent describing the appWidgetId
+     * @param cellInfo The position on screen where to create the widget
+     */
     void addAppWidget(Intent data, CellLayout.CellInfo cellInfo, boolean insertAtFirst) {
     	Bundle extras = data.getExtras();
     	int appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, -1); 
@@ -58,7 +62,6 @@ public class WidgetBarActivity extends Activity {
     	//calculate the grid spans needed to fit this widget
     	CellLayout layout = (CellLayout) mWidgetbar.getWorkspace().getChildAt(cellInfo.session);
     	int[] spans = layout.rectToCell(appWidgetInfo.minWidth, appWidgetInfo.minHeight);
-    	
     	
     	//Try finding the open space on the widgetbar to fit this widget
     	final int[] xy = mCellCoordinates;
@@ -88,8 +91,10 @@ public class WidgetBarActivity extends Activity {
     	
     private boolean findSlot(CellLayout.CellInfo cellInfo, int[] xy, int spanX, int spanY) {
     	if(!cellInfo.findCellForSpan(xy, spanX, spanY)) {
+    		Log.d("WidgetbarActivity", "Finding on another session");
     		cellInfo = mWidgetbar.getWorkspace().findAllVacantCells(null);
     		if(!cellInfo.findCellForSpan(xy, spanX, spanY)) {
+    			Log.d("WidgetbarActivity", "Out of space");
     			return false;
     		}
     	}
@@ -113,10 +118,7 @@ public class WidgetBarActivity extends Activity {
 			if(requestCode == REQUEST_PICK_APPWIDGET) {
 				configureWidget(data);
 			}else if(requestCode == REQUEST_CREATE_APPWIDGET){
-				if(mAddItemCellInfo==null) {
-					mAddItemCellInfo = new CellLayout.CellInfo();
-				}
-				addAppWidget(data, mAddItemCellInfo,true );
+				addAppWidget(data, mWidgetbar.getWorkspace().findAllVacantCells(null),true );
 			}
 		} else if(requestCode == RESULT_CANCELED && data != null) {
 			int appWidgetId = data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1);
@@ -144,10 +146,7 @@ public class WidgetBarActivity extends Activity {
 			
 			startActivityForResult(intent, REQUEST_CREATE_APPWIDGET);
 		}else {
-			if(mAddItemCellInfo==null) {
-				mAddItemCellInfo = new CellLayout.CellInfo();
-			}
-			addAppWidget(data, mAddItemCellInfo,true );
+			addAppWidget(data, mWidgetbar.getWorkspace().findAllVacantCells(null),true );
 			//createWidget(data);
 		}
 	}

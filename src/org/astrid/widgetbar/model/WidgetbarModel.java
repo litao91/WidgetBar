@@ -98,14 +98,12 @@ public class WidgetbarModel {
 					WidgetbarSettings.Favoriates.CONTENT_URI, null, null, null,null);
 			try{
 				final int idIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates._ID);
-				final int intentIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.INTENT);
 				final int appWidgetIdIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.APPWIDGET_ID);
 				final int sessionIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.SESSION);
 				final int cellXIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.CELLX); 
 				final int cellYIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.CELLY);
 				final int spanXIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.SPANX);
-				final int spanYIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.SPANX);
-				final int uriIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.URI);
+				final int spanYIndex = c.getColumnIndexOrThrow(WidgetbarSettings.Favoriates.SPANY);
 				WidgetbarAppWidgetInfo appWidgetInfo;
 				while(!mStopped && c.moveToNext()) {
 					//Need switch and cases if we have multiple item types
