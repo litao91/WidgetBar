@@ -76,7 +76,6 @@ public class Widgetbar{
         mAppWidgetHost.startListening();
         mOverlayBarView = (DragLayer)mInflater.inflate(R.layout.widgetbar, null);
         setUpViews();
-        
         startLoaders();
     }
     public WidgetbarAppWidgetHost getAppWidgetHost() {

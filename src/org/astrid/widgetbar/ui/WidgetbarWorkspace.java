@@ -9,6 +9,7 @@ import android.graphics.RectF;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+//import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -310,16 +311,26 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
          return false;
      }
      */
+     
      @Override
      public boolean onInterceptTouchEvent(MotionEvent ev) {
+    	 /**
+    	  * This determine whether we want to intercept the motion. 
+    	  * If we return true, onTouchEvent will be called and we do the 
+    	  * actual scrolling there
+    	  * If we return false, the event will be dispatched to the child view,
+    	  * which will handle the event
+    	  */
          final int action = ev.getAction();
          if((action == MotionEvent.ACTION_MOVE) && (mTouchState != TOUCH_STATE_REST)){
+        	 //Log.d("Workspace", "Moving and Scrolling");
              return true;
          }
          final float x = ev.getX();
          final float y = ev.getY();
          switch(action) {
              case MotionEvent.ACTION_MOVE:
+            	 //Log.d("Workspace", "Intercepting Move");
                  final int xDiff = (int) Math.abs(x - mLastMotionX);
                  final int yDiff = (int) Math.abs(y - mLastMotionY);
         		 
@@ -330,12 +341,14 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
                  if(xMoved || yMoved) {
                      if(xMoved) {
                      //Scroll if the user moved far enough along the X axis
+                    	//Log.d("Workspace", "Moved");
                         mTouchState = TOUCH_STATE_SCROLLING; 
                         enableChildrenCache();
             		 }
             	 }
                  break;
              case MotionEvent.ACTION_DOWN:
+            	 //Log.d("Workspace", "Intercepting Down");
                  //Remember the location of down touch
                  mLastMotionX = x;
                  mLastMotionY = y;
@@ -343,7 +356,9 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
                   * If being flinged and user touches the screen, initiate drag;
                   * otherwise don't. mScroller.isFinished should be false when being flinged.
             	  */
+                 //Log.d("Workspace", "Scroller is finished:"+mScroller.isFinished());
                  mTouchState = mScroller.isFinished() ? TOUCH_STATE_REST: TOUCH_STATE_SCROLLING;
+                 
                  break;
              case MotionEvent.ACTION_CANCEL:
              case MotionEvent.ACTION_UP:
@@ -356,6 +371,7 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
           * The only time we want to intercept motion events is if we are in the drag mode
           */
          return mTouchState != TOUCH_STATE_REST;
+        // return false;
      }
      
      void enableChildrenCache() {
@@ -381,10 +397,11 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
     	 mVelocityTracker.addMovement(ev);
     	 final int action = ev.getAction();
     	 final float x = ev.getX();
+    	 
     	 switch(action) {
     	 case MotionEvent.ACTION_DOWN:
     		 /*
-    		  * If being fliginged anduser touches, stop teh fling. isFinished
+    		  * If being fliinged and user touches, stop teh fling. isFinished
     		  * will be false if being flinged.
     		  */
     		 if(!mScroller.isFinished()) {
@@ -393,6 +410,9 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
     		 
     		 //Remember where the motion event started
     		 mLastMotionX = x;
+    		 //When touch a empty space(The down event wasn't handled by the 
+    		 //Child), do scrolling
+    		 mTouchState = TOUCH_STATE_SCROLLING;
     		 break;
     	 case MotionEvent.ACTION_MOVE:
     		 if(mTouchState == TOUCH_STATE_SCROLLING) {
@@ -439,8 +459,8 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
     		 mTouchState = TOUCH_STATE_REST;
     	 }
     	 return true;
-    			 
      }
+     
      private void snapToDestination() {
     	 final int sessionWidth = getWidth();
     	 final int whichSession = (getScrollX() + (sessionWidth/2)) / sessionWidth;

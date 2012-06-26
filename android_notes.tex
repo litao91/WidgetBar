@@ -2,8 +2,9 @@
 \usepackage{parskip}
 \usepackage[top=1.5cm, left=1cm, right=1cm, bottom=2.5cm]{geometry}
 \begin{document}
-\chapter{Scroller}
-\section{Class Overview}
+\chapter{Classes and Methods}
+\section{Scroller}
+\subsection{Class Overview}
 This class encapsulates scrolling. The duration of the scroll can be passed
  in the constructor and specifies the maximum time that the scrolling animation
 should take. Past this time, the scrolling is automatically moved to its final
@@ -11,10 +12,11 @@ stage and \verb|computeScrollOffset()| will always return false to indicate taht
 scrolling is over.
 
 \section{AppWdiget}
-\section{AppWidgetManager}
+
+\subsection{AppWidgetManager}
 Updates AppWidgetState, gets information about installed AppWidgetProviders and
 other Widget related state.
-\section{AppWidgetHost}
+\subsection{AppWidgetHost}
 Provides the \emph{interaction} with the AppWidget source for apps, like the
 home screen, that want to embed AppWidget in their UI.
 
@@ -25,16 +27,16 @@ for cases where you want two unique AppWidgetHosts inside of the same
 application, so the system can optimize and only send updates to actively 
 listening hosts. 
 
-\section{AppWidgetHostView}
+\subsection{AppWidgetHostView}
 Provides teh glue to show AppWidgetViews. Offers automatic animation between
 updates, and will try recycling old views for each incoming.
-\section{AppWidgetProviderInfo}
+\subsection{AppWidgetProviderInfo}
 Describes the meta data for an installed AppWidgetProvider. The fields
 correspond to the fields in the \verb|appwidget-provider>| xml tag.
 
 
-\chapter{Content Providers}
-\section{Overview}
+\section{Content Providers}
+\subsection{Overview}
 Content providers manage access to a \emph{structured set of data}. They
 encapsulate the data, and provide mechanisms for defining data security. Content
 providers are the standard interface that \emph{connets data in one process with
@@ -54,7 +56,7 @@ the data.
 However, content providers are primarily intended to be \emph{used by other
 applications}, which access teh provider using a provider client object. 
 
-\section{Content URIs}
+\subsection{Content URIs}
 A content URI is a URI that indentifies data in a provider. Content URIs include
 the symbolic name of teh entire provider (its authority) and name that points to
 a table (a path).
@@ -89,4 +91,30 @@ processed as soon as the message queue is ready to do so, or specify a dely.
 \begin{description}
 \item[notifyChange] Notify registered obsevers that a row was updated. 
 \end{description}
-\end{document
+\section{ViewGroup}
+\subsection{onInterceptTouchEvent}
+Implement this method to intercept all touch screen \verb|MotionEvent|. This
+allow you to \emph{watch event as they are dispatched to your children}, and
+take the owner ship of teh current gesture at any point.
+
+Events will be received in the following order:
+\begin{enumerate}
+\item You will receive the \textbf{down event} in \verb|onInterceptTouchEvent|
+\item The \textbf{down event} will be handled either by a child of this view
+group, or given to the \verb|ViewGroup|'s own \verb|onTouchEvent()| method to
+handle. This means you should implement \verb|onTouchEvent()| to return
+\verb|true|, so you will continue to see the rest of the gesture (instead of
+looking for a parent view to handle it). Also by returning true from
+\verb|onTouchEvent|, you will not receive any following events in
+\verb|onInterceptTouchEvent()| and all touch processing must happen in
+\verb|onTouchEvent()|
+\item For as long as you return \verb|false| from \verb|onInterceptTouchEvent|,
+each following event will be delivered first here and then to the target's
+\verb|onTouchEvent()|
+\item If you return \verb|true| here, you will not receive any following events,
+the target view will receieve the same event but with the \verb|ACTION_CANCEL|
+and all further events will be delivered to your \verb|onTouchEvent()| method
+and no longer appear here.
+\end{enumerate}
+
+\end{document}

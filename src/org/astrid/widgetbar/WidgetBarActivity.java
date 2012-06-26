@@ -40,6 +40,7 @@ public class WidgetBarActivity extends Activity {
         this.startService(new Intent(this, widgetBarService.class));
 		mAppWidgetManager = AppWidgetManager.getInstance(AppContext.getInstance().getContext());
 		mAppWidgetHost = mWidgetbar.getAppWidgetHost();
+		mAppWidgetHost.startListening();
 		mLayout = (LinearLayout)findViewById(R.id.main_layout);
 		Button selectButton = (Button)findViewById(R.id.select_button);
 		selectButton.setOnClickListener(new OnClickListener() {
@@ -87,6 +88,7 @@ public class WidgetBarActivity extends Activity {
     	widgetbarInfo.hostView.setTag(widgetbarInfo);
     	mWidgetbar.getWorkspace().addInCurrentSession(widgetbarInfo.hostView, 
     			xy[0], xy[1], widgetbarInfo.spanX, widgetbarInfo.spanY, insertAtFirst);
+    	mAppWidgetHost.startListening();
     }
     	
     private boolean findSlot(CellLayout.CellInfo cellInfo, int[] xy, int spanX, int spanY) {
