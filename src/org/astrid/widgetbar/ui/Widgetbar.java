@@ -19,6 +19,7 @@ import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Message;
 import android.os.MessageQueue;
 import android.util.DisplayMetrics;
@@ -26,6 +27,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 
 public class Widgetbar{
@@ -46,6 +48,9 @@ public class Widgetbar{
     private DragLayer mDragLayer;
     private WidgetbarWorkspace mWorkspace;
     private AppWidgetManager mAppWidgetManager;
+    private static HandlerThread uiThread = new HandlerThread("UIHandler");
+    
+    private WidgetbarBinder mBinder;
     
     public static final int APPWIDGET_HOST_ID = 1024;
     
@@ -71,12 +76,13 @@ public class Widgetbar{
         mActivityManager = ((ActivityManager)getContext().getSystemService("activity"));
         mInflater = (LayoutInflater)getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        startLoaders();
         mAppWidgetManager = AppWidgetManager.getInstance(getContext());
         mAppWidgetHost = new WidgetbarAppWidgetHost(getContext(), APPWIDGET_HOST_ID);
         mAppWidgetHost.startListening();
         mOverlayBarView = (DragLayer)mInflater.inflate(R.layout.widgetbar, null);
         setUpViews();
+        startLoaders();
+        uiThread.start();
     }
     public static Widgetbar getInstance() {
         if(mInstance == null) {
@@ -100,6 +106,7 @@ public class Widgetbar{
             final WidgetbarAppWidgetInfo  item = appWidgets.removeFirst();
             final int appWidgetId = item.getAppWidgetId();
             final AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(appWidgetId);
+        	Log.d("Widgetbar", "Binding widget with id:"+appWidgetId);
             item.hostView = mAppWidgetHost.createView(getContext(), appWidgetId, appWidgetInfo);
             item.hostView.setAppWidget(appWidgetId, appWidgetInfo);
             item.hostView.setTag(item);
@@ -189,15 +196,27 @@ public class Widgetbar{
     private void bindWidgetbarItems(ArrayList<ItemInfo> items,
             ArrayList<WidgetbarAppWidgetInfo> appWidgets) {
         final WidgetbarWorkspace workspace = mWorkspace;
+        int count = workspace.getChildCount();
+        for(int i = 0; i < count; i++) {
+        	((ViewGroup) workspace.getChildAt(i)).removeAllViewsInLayout();
+        }
+        //Flag any old binder to terminate early
+        if(mBinder!=null) {
+        	mBinder.mTerminate = true;
+        }
+        mBinder = new WidgetbarBinder(this, appWidgets);
+        mBinder.startBindingAppWidgets();
     }
     
     private static class WidgetbarBinder extends Handler implements MessageQueue.IdleHandler {
         static final int MESSAGE_BIND_APPWIDGETS = 0x1;
         private final LinkedList<WidgetbarAppWidgetInfo> mAppWidgets;
         private final WeakReference<Widgetbar> mWidgetbar;
+        public boolean mTerminate = false;
         
         WidgetbarBinder(Widgetbar widgetbar,
                 ArrayList<WidgetbarAppWidgetInfo> appWidgets) {
+        	super(AppContext.getInstance().getContext().getMainLooper());
             mWidgetbar = new WeakReference<Widgetbar>(widgetbar);
             
             //sort widgets so active workspace is bound first.
@@ -224,7 +243,10 @@ public class Widgetbar{
         }
         @Override
         public void handleMessage(Message msg) {
-            Widgetbar widgetbar = mWidgetbar.get();
+        	Widgetbar widgetbar = mWidgetbar.get();
+        	if(widgetbar == null || mTerminate) {
+        		return;
+        	}
             switch(msg.what) {
                 case MESSAGE_BIND_APPWIDGETS: {
                     widgetbar.bindAppWidgets(this, mAppWidgets);

@@ -131,7 +131,6 @@ public class WidgetbarModel {
 				final ArrayList<ItemInfo> uiWidgetbarItems = new ArrayList<ItemInfo>(widgetbarItems);
 				final ArrayList<WidgetbarAppWidgetInfo> uiWidgetbarWidgets = 
 						new ArrayList<WidgetbarAppWidgetInfo>(widgetbarAppWidgets);
-				//Note: better to put it on UI thread
 				widgetbar.onWidgetbarItemsLoded(uiWidgetbarItems, uiWidgetbarWidgets);
 			}
 			mRunning = false;
