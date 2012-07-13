@@ -1,16 +1,23 @@
 package org.astrid.widgetbar;
 
+import org.astrid.widgetbar.context.AppContext;
 import org.astrid.widgetbar.ui.Widgetbar;
 
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
 public class widgetBarService extends Service {
-	private Widgetbar widgetbar;
+	private Widgetbar mWidgetbar;
 
+	@Override
+	public void onCreate(){
+		super.onCreate();
+	}
+	
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
@@ -26,12 +33,14 @@ public class widgetBarService extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-//		int i = super.onStartCommand(intent, flags, startId);
-		Log.d("widgetBarService", "starting Command");
-		if(widgetbar==null) {
-			widgetbar = Widgetbar.getInstance();
+		if(mWidgetbar==null) {
+			mWidgetbar = Widgetbar.getInstance();
 		}
-		this.widgetbar.show();
+		new Handler().postDelayed(new Runnable(){
+			public void run() {
+				mWidgetbar.showWindow();
+			}
+		}, 1000);
 		return START_STICKY;
 	}
 }

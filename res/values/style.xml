@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base style for animation -->
+    <style name="Animation" />
+
+    <!--  -->
+    <style name="Animation.Widgetbar">
+        <item name="android:windowEnterAnimation">@anim/widgetbar_enter</item>
+        <item name="android:windowExitAnimation">@anim/widgetbar_exit</item>
+    </style>
+
+    <style name="FullHeightDialog" parent="android:style/Theme.Panel"></style>
+
+</resources>

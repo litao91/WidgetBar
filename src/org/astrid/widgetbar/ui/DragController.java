@@ -20,60 +20,69 @@ import android.view.View;
 
 /**
  * Interface for initiating a drag within a view or across multiple views.
- *
+ * 
  */
 public interface DragController {
-    
-    /**
-     * Interface to receive notifications when a drag starts or stops
-     */
-    interface DragListener {
-        
-        /**
-         * A drag has begun
-         * 
-         * @param v The view that is being dragged
-         * @param source An object representing where the drag originated
-         * @param info The data associated with the object that is being dragged
-         * @param dragAction The drag action: either {@link DragController#DRAG_ACTION_MOVE}
-         *        or {@link DragController#DRAG_ACTION_COPY}
-         */
-        void onDragStart(View v, DragSource source, Object info, int dragAction);
-        
-        /**
-         * The drag has eneded
-         */
-        void onDragEnd();
-    }
-    
-    /**
-     * Indicates the drag is a move.
-     */
-    public static int DRAG_ACTION_MOVE = 0;
 
-    /**
-     * Indicates the drag is a copy.
-     */
-    public static int DRAG_ACTION_COPY = 1;
+	/**
+	 * Interface to receive notifications when a drag starts or stops
+	 */
+	interface DragListener {
 
-    /**
-     * Starts a drag
-     * 
-     * @param v The view that is being dragged
-     * @param source An object representing where the drag originated
-     * @param info The data associated with the object that is being dragged
-     * @param dragAction The drag action: either {@link #DRAG_ACTION_MOVE} or
-     *        {@link #DRAG_ACTION_COPY}
-     */
-    void startDrag(View v, DragSource source, Object info, int dragAction);
-    
-    /**
-     * Sets the drag listner which will be notified when a drag starts or ends.
-     */
-    void setDragListener(DragListener l);
-    
-    /**
-     * Remove a previously installed drag listener.
-     */
-    void removeDragListener(DragListener l);
+		/**
+		 * A drag has begun
+		 * 
+		 * @param v
+		 *            The view that is being dragged
+		 * @param source
+		 *            An object representing where the drag originated
+		 * @param info
+		 *            The data associated with the object that is being dragged
+		 * @param dragAction
+		 *            The drag action: either
+		 *            {@link DragController#DRAG_ACTION_MOVE} or
+		 *            {@link DragController#DRAG_ACTION_COPY}
+		 */
+		void onDragStart(View v, DragSource source, Object info, int dragAction);
+
+		/**
+		 * The drag has ended
+		 */
+		void onDragEnd();
+	}
+
+	/**
+	 * Indicates the drag is a move.
+	 */
+	public static int DRAG_ACTION_MOVE = 0;
+
+	/**
+	 * Indicates the drag is a copy.
+	 */
+	public static int DRAG_ACTION_COPY = 1;
+
+	/**
+	 * Starts a drag
+	 * 
+	 * @param v
+	 *            The view that is being dragged
+	 * @param source
+	 *            An object representing where the drag originated
+	 * @param info
+	 *            The data associated with the object that is being dragged
+	 * @param dragAction
+	 *            The drag action: either {@link #DRAG_ACTION_MOVE} or
+	 *            {@link #DRAG_ACTION_COPY}
+	 */
+	void startDrag(View v, DragSource source, Object info, int dragAction);
+
+	/**
+	 * Sets the drag listner which will be notified when a drag starts or ends.
+	 */
+	void setDragListener(DragListener l);
+
+	/**
+	 * Remove a previously installed drag listener.
+	 */
+	void removeDragListener(DragListener l);
 }

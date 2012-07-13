@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.astrid.widgetbar.ui.DragLayer
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<org.astrid.widgetbar.ui.DragLayer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:widgetbar="http://schemas.android.com/apk/res/org.astrid.widgetbar"
-    
     android:id="@+id/drag_layout"
+    android:background="#50E9E9E9"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
+
     <org.astrid.widgetbar.ui.WidgetbarWorkspace
         android:id="@+id/workspace"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        
-	    widgetbar:defaultSession="1">
-	    <include android:id="@+id/cell1" layout="@layout/workspace_session"/>
-	    <include android:id="@+id/cell2" layout="@layout/workspace_session"/>
-	    <include android:id="@+id/cell3" layout="@layout/workspace_session"/>
+        widgetbar:defaultSession="1" >
+
+        <include
+            android:id="@+id/cell1"
+            layout="@layout/workspace_session" />
+
+        <include
+            android:id="@+id/cell2"
+            layout="@layout/workspace_session" />
+
+        <include
+            android:id="@+id/cell3"
+            layout="@layout/workspace_session" />
     </org.astrid.widgetbar.ui.WidgetbarWorkspace>
+
 </org.astrid.widgetbar.ui.DragLayer>
-    

@@ -5,9 +5,22 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <Button 
+    <Button
         android:id="@+id/select_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="select widget"/>
+        android:text="@string/select_widget_btn" />
+
+    <Button
+        android:id="@+id/show_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_widgetbar" />
+
+    <Button
+        android:id="@+id/hide_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hide_widgetbar" />
+
 </LinearLayout>

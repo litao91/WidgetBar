@@ -5,5 +5,8 @@
     <string name="app_name">WidgetBar</string>
     <string name="perm_write">Read settings</string>
     <string name="perm_read">Write settings</string>
+    <string name="select_widget_btn">Select Widget</string>
+    <string name="show_widgetbar">Show</string>
+    <string name="hide_widgetbar">Hide</string>
 
 </resources>
