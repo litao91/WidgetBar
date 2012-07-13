@@ -111,7 +111,7 @@ public class Widgetbar {
 		dragLayer.setDragScoller(workspace);
 
 		mWindow.setContentView(mRootView);
-		mWindow.getWindow().setWindowAnimations(R.style.Animation_Widgetbar);
+		//mWindow.getWindow().setWindowAnimations(R.style.Animation_Widgetbar);
 
 		WindowManager.LayoutParams lp = mWindow.getWindow().getAttributes();
 
