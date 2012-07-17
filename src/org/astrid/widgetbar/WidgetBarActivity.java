@@ -79,6 +79,7 @@ public class WidgetBarActivity extends Activity {
 	 * in the previous step) to the model(database)</li>
 	 * <li>Create the view of the widget with AppWidgetHost</li>
 	 * <li>Add the view to the current session</li>
+	 * </ol>
 	 * 
 	 * @param data
 	 *            The intent describing the appWidgetId

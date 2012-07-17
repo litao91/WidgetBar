@@ -20,11 +20,11 @@ public class WidgetbarService extends Service {
 	private final IWidgetbarService.Stub mBinder = new IWidgetbarService.Stub() {
 		public void showWidgetbar(){
 			Log.d("WigetbarService", "IPC calling show");
-			Widgetbar.getInstance().showWindow();
+			Widgetbar.getInstance().safeShowWindow();
 		}
 		public void hideWidgetbar() {
 			Log.d("WigetbarService", "IPC calling hide");
-			Widgetbar.getInstance().hideWindow();
+			Widgetbar.getInstance().safeHideWindow();
 		}
 	};
 

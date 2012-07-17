@@ -177,16 +177,13 @@ public class Widgetbar {
 			Log.w(TAG, "Re-entrance in to showWindow");
 			return;
 		}
-		try {
-			mInShowWindow = true;
-			mWindowShown = true;
-			if (!mItemsLoaded) {
-				startLoaders();
-			}
-			mWindow.show();
-		} finally {
-			mInShowWindow = false;
+		mInShowWindow = true;
+		mWindowShown = true;
+		if (!mItemsLoaded) {
+			startLoaders();
 		}
+		mWindow.show();
+		mInShowWindow = false;
 		if (DEBUG)
 			Log.v(TAG, "showWindow: updating UI");
 		if (!mInitialized) {
@@ -195,10 +192,21 @@ public class Widgetbar {
 	}
 
 	public void hideWindow() {
+		Log.d(TAG, "hiding Window");
 		if (mWindowShown) {
 			mWindow.hide();
 			mWindowShown = false;
 		}
+	}
+
+	public void safeShowWindow() {
+		mBinder.obtainMessage(WidgetbarBinder.MESSAGE_SHOW_WIDGETBAR)
+				.sendToTarget();
+	}
+
+	public void safeHideWindow() {
+		mBinder.obtainMessage(WidgetbarBinder.MESSAGE_HIDE_WIDGETBAR)
+				.sendToTarget();
 	}
 
 	public boolean isWindowShown() {
@@ -342,10 +350,15 @@ public class Widgetbar {
 				return;
 			}
 			switch (msg.what) {
-			case MESSAGE_BIND_APPWIDGETS: {
+			case MESSAGE_BIND_APPWIDGETS:
 				widgetbar.bindAppWidgets(this, mAppWidgets);
 				break;
-			}
+			case MESSAGE_SHOW_WIDGETBAR:
+				widgetbar.showWindow();
+				break;
+			case MESSAGE_HIDE_WIDGETBAR:
+				widgetbar.hideWindow();
+				break;
 			}
 		}
 	}
