@@ -111,7 +111,7 @@ public class Widgetbar {
 		dragLayer.setDragScoller(workspace);
 
 		mWindow.setContentView(mRootView);
-		//mWindow.getWindow().setWindowAnimations(R.style.Animation_Widgetbar);
+		// mWindow.getWindow().setWindowAnimations(R.style.Animation_Widgetbar);
 
 		WindowManager.LayoutParams lp = mWindow.getWindow().getAttributes();
 
@@ -128,7 +128,7 @@ public class Widgetbar {
 			lp.height = (int) (screenHeight * 0.5);
 			lp.width = (int) screenWidth;
 		} else {
-			lp.height = (int) (screenHeight * 0.75);
+			lp.height = (int) (screenHeight * 0.6);
 			lp.width = (int) screenWidth;
 		}
 		mWindow.getWindow().setAttributes(lp);
@@ -180,7 +180,7 @@ public class Widgetbar {
 		try {
 			mInShowWindow = true;
 			mWindowShown = true;
-			if(!mItemsLoaded) {
+			if (!mItemsLoaded) {
 				startLoaders();
 			}
 			mWindow.show();
@@ -200,7 +200,7 @@ public class Widgetbar {
 			mWindowShown = false;
 		}
 	}
-	
+
 	public boolean isWindowShown() {
 		return mWindowShown;
 	}
@@ -297,7 +297,8 @@ public class Widgetbar {
 	private static class WidgetbarBinder extends Handler implements
 			MessageQueue.IdleHandler {
 		static final int MESSAGE_BIND_APPWIDGETS = 0x1;
-		static final int MESSAGE_ANMI_HIDE = 0x2;
+		static final int MESSAGE_SHOW_WIDGETBAR = 0x2;
+		static final int MESSAGE_HIDE_WIDGETBAR = 0x3;
 		private final LinkedList<WidgetbarAppWidgetInfo> mAppWidgets;
 		private final WeakReference<Widgetbar> mWidgetbar;
 		public boolean mTerminate = false;

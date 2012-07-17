@@ -41,7 +41,7 @@ public class WidgetBarActivity extends Activity {
 		setContentView(R.layout.main);
 		mWidgetbar = Widgetbar.getInstance();
 
-		this.startService(new Intent(this, widgetBarService.class));
+		this.startService(new Intent(this, WidgetbarService.class));
 		mAppWidgetManager = AppWidgetManager.getInstance(AppContext
 				.getInstance().getContext());
 		mAppWidgetHost = mWidgetbar.getAppWidgetHost();
@@ -53,19 +53,20 @@ public class WidgetBarActivity extends Activity {
 				selectWidget();
 			}
 		});
-		((Button)findViewById(R.id.show_button)).setOnClickListener(new OnClickListener(){
-			public void onClick(View v){
-				mWidgetbar.showWindow();
-			}
-		});
-		((Button)findViewById(R.id.hide_button)).setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				mWidgetbar.hideWindow();
-			}
-		});
+		((Button) findViewById(R.id.show_button))
+				.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						mWidgetbar.showWindow();
+					}
+				});
+		((Button) findViewById(R.id.hide_button))
+				.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						mWidgetbar.hideWindow();
+					}
+				});
 	}
 
-	
 	/**
 	 * Add a widget to the workspace
 	 * 

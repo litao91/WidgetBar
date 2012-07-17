@@ -10,13 +10,15 @@ import android.view.WindowManager;
 
 public class WidgetbarWindow extends Dialog {
 	public final static String TAG = "WidgetbarWindow";
-	//private final Rect mBounds = new Rect();
+
+	// private final Rect mBounds = new Rect();
 
 	public WidgetbarWindow(Context context) {
-		super(context,R.style.FullHeightDialog);
-		Log.d(TAG,"Creating widgetbar window in"+context);
+		super(context, R.style.FullHeightDialog);
+		Log.d(TAG, "Creating widgetbar window in" + context);
 		initDockWindow();
 	}
+
 	/**
 	 * get the size of the DockWindow
 	 * 
@@ -81,28 +83,28 @@ public class WidgetbarWindow extends Dialog {
 		}
 
 	}
-	
+
 	private void initDockWindow() {
 		WindowManager.LayoutParams lp = getWindow().getAttributes();
-		
-		//The layout is basically similar to a input method.
-		//lp.type = WindowManager.LayoutParams.TYPE_INPUT_METHOD;
+
+		// The layout is basically similar to a input method.
+		// lp.type = WindowManager.LayoutParams.TYPE_INPUT_METHOD;
 		lp.setTitle("Widgetbar");
-		
+
 		lp.gravity = Gravity.BOTTOM;
 		lp.width = -1;
-		//Let the window's orientation follow sensor based rotation
+		// Let the window's orientation follow sensor based rotation
 		// Turn off for now
-		//lp.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_USER;
+		// lp.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_USER;
 		getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-		
+
 		getWindow().setAttributes(lp);
 		getWindow().setFlags(
-				WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
-				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-				WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN|
-				WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|
-				WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+				WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+						| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+				WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+						| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+						| WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 	}
-	
+
 }

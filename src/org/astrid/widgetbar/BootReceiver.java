@@ -13,10 +13,10 @@ public class BootReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		Log.d("Receiver", "onReceive");
-		if(!AppContext.getInstance().isInitialized()) {
+		if (!AppContext.getInstance().isInitialized()) {
 			AppContext.getInstance().init(context);
 		}
-		context.startService(new Intent(context, widgetBarService.class));
+		context.startService(new Intent(context, WidgetbarService.class));
 	}
 
 }

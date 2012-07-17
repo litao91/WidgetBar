@@ -246,7 +246,7 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
 			throw new IllegalStateException("The screen must be >= 0 and < "
 					+ getChildCount());
 		}
-		
+
 		final CellLayout group = (CellLayout) getChildAt(session);
 		CellLayout.LayoutParams lp = (CellLayout.LayoutParams) child
 				.getLayoutParams();
