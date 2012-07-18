@@ -55,7 +55,7 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
 
 	/**
 	 * Used to inflate the Workspace from XML
-	 * 
+	 *
 	 * @param context
 	 *            The applicatin's context
 	 * @param attrs
@@ -68,7 +68,7 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
 
 	/**
 	 * Used to Inflate the Workspace from XML
-	 * 
+	 *
 	 * @param context
 	 *            The application's context
 	 * @param attrs
@@ -154,7 +154,7 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
 
 	/**
 	 * Computes a bounding rectangle for a range of cells
-	 * 
+	 *
 	 * @param CellX
 	 *            X coord. of upper left corner expressed as a cell position
 	 * @param CellY
@@ -174,7 +174,7 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
 
 	/**
 	 * Sets the current session
-	 * 
+	 *
 	 * @param currentSession
 	 */
 	void setCurrentSession(int currentSession) {
@@ -190,7 +190,7 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
 
 	/**
 	 * Adds the specified child in the current screen.
-	 * 
+	 *
 	 * @param child
 	 *            The child to add in one of the workspace's sessions.
 	 * @param x
@@ -209,7 +209,7 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
 
 	/**
 	 * Adds the specified child in the specified screen.
-	 * 
+	 *
 	 * @param child
 	 *            The child to add in the session
 	 * @param session
@@ -235,7 +235,7 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
 
 	/**
 	 * Adds the specified child in the specified session
-	 * 
+	 *
 	 * @param insert
 	 *            When true, the child is inserted at the beginning of the
 	 *            children list.
@@ -293,7 +293,7 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
 
 	/**
 	 * Adds the specified childi in the current session
-	 * 
+	 *
 	 * @param child
 	 *            The child to add in one of the workspace's sessions.
 	 * @param spanX
@@ -584,17 +584,14 @@ public class WidgetbarWorkspace extends ViewGroup implements DragScroller {
 	}
 
 	public void scrollLeft() {
-		if (mNextSession == INVALID_SESSION && mCurrentSession > 0
-				&& mScroller.isFinished()) {
-			snapToSession(mCurrentSession - 1);
+		if (mScroller.isFinished()) {
+			snapToSession((mCurrentSession - 1) % getChildCount());
 		}
 	}
 
 	public void scrollRight() {
-		if (mNextSession == INVALID_SESSION
-				&& mCurrentSession < getChildCount() - 1
-				&& mScroller.isFinished()) {
-			snapToSession(mCurrentSession + 1);
+		if (mScroller.isFinished()) {
+			snapToSession((mCurrentSession + 1) % getChildCount());
 		}
 	}
 

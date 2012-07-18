@@ -16,7 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 /**
  * WidgetBarActivity is the only activity of this application. This is where the
@@ -30,7 +30,7 @@ public class WidgetBarActivity extends Activity {
 
 	private AppWidgetManager mAppWidgetManager;
 	private WidgetbarAppWidgetHost mAppWidgetHost;
-	private LinearLayout mLayout;
+	private RelativeLayout mLayout;
 	private Widgetbar mWidgetbar;
 
 	private final int[] mCellCoordinates = new int[2];
@@ -46,7 +46,7 @@ public class WidgetBarActivity extends Activity {
 				.getInstance().getContext());
 		mAppWidgetHost = mWidgetbar.getAppWidgetHost();
 		mAppWidgetHost.startListening();
-		mLayout = (LinearLayout) findViewById(R.id.main_layout);
+		mLayout = (RelativeLayout) findViewById(R.id.main_layout);
 		Button selectButton = (Button) findViewById(R.id.select_button);
 		selectButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -65,11 +65,24 @@ public class WidgetBarActivity extends Activity {
 						mWidgetbar.hideWindow();
 					}
 				});
+        ((Button) findViewById(R.id.right_button)).
+            setOnClickListener(new OnClickListener(){
+                public void onClick(View v) {
+                    mWidgetbar.scrollRight();
+                }
+            });
+        ((Button) findViewById(R.id.left_button)).
+            setOnClickListener(new OnClickListener(){
+                public void onClick(View v){
+                    Log.d("WidgetbarActivity", "Left");
+                    mWidgetbar.scrollLeft();
+                }
+            });
 	}
 
 	/**
 	 * Add a widget to the workspace
-	 * 
+	 *
 	 * Steps to add a new widget:
 	 * <ol>
 	 * <li>Calculate the grid spans needed to fit the widget</li>
@@ -80,13 +93,13 @@ public class WidgetBarActivity extends Activity {
 	 * <li>Create the view of the widget with AppWidgetHost</li>
 	 * <li>Add the view to the current session</li>
 	 * </ol>
-	 * 
+	 *
 	 * @param data
 	 *            The intent describing the appWidgetId
 	 * @param cellInfo
 	 *            The cell Information of current workspace, containing the
 	 *            vacant cells (positions and spans) in particular
-	 * 
+	 *
 	 */
 	void addAppWidget(Intent data, CellLayout.CellInfo cellInfo,
 			boolean insertAtFirst) {
@@ -138,7 +151,7 @@ public class WidgetBarActivity extends Activity {
 
 	/**
 	 * Find a empty slot for a specified size
-	 * 
+	 *
 	 * @param cellInfo
 	 *            Information for the cells
 	 * @param xy

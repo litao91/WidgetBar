@@ -8,5 +8,7 @@
     <string name="select_widget_btn">Select Widget</string>
     <string name="show_widgetbar">Show</string>
     <string name="hide_widgetbar">Hide</string>
+    <string name="left_btn">Left</string>
+    <string name="right_btn">Right</string>
 
 </resources>

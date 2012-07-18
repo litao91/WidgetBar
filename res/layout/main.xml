@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -15,12 +15,29 @@
         android:id="@+id/show_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/select_button"
         android:text="@string/show_widgetbar" />
 
     <Button
         android:id="@+id/hide_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/select_button"
+        android:layout_toRightOf="@+id/show_button"
         android:text="@string/hide_widgetbar" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/left_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/show_button"
+        android:text="@string/left_btn"/>
+    <Button
+        android:id="@+id/right_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@+id/left_button"
+        android:layout_below="@+id/hide_button"
+        android:text="@string/right_btn"/>
+
+</RelativeLayout>
