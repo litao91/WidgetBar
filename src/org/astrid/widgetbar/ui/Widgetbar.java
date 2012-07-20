@@ -11,16 +11,13 @@ import org.astrid.widgetbar.model.ItemInfo;
 import org.astrid.widgetbar.model.WidgetbarAppWidgetInfo;
 import org.astrid.widgetbar.model.WidgetbarModel;
 
-import android.app.ActivityManager;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Handler;
 import android.os.Message;
 import android.os.MessageQueue;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -69,14 +66,9 @@ public class Widgetbar {
     private int screenWidth;
     private int barHeight;
     private int barWidth;
-    // Managers
-    private ActivityManager mActivityManager;
-    private WindowManager.LayoutParams mLayoutParams;
-    private PackageManager mPackageManager;
     private WindowManager mWindowManager;
     private WidgetbarAppWidgetHost mAppWidgetHost;
 
-    private DisplayMetrics metrics = new DisplayMetrics();
     private static int mCurrentSession = DEFAULT_SESSION;
 
     private View mRootView;
@@ -87,9 +79,8 @@ public class Widgetbar {
      */
     private Widgetbar() {
         Log.d(TAG, "Creating widgetbar");
-        mPackageManager = getContext().getPackageManager();
-        mActivityManager = ((ActivityManager) getContext().getSystemService(
-                "activity"));
+        getContext().getPackageManager();
+
         mInflater = (LayoutInflater) getContext().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         mAppWidgetManager = AppWidgetManager.getInstance(getContext());
@@ -100,6 +91,9 @@ public class Widgetbar {
         Log.d(TAG, "Creating Widgetbar" + getContext());
     }
 
+    /**
+     * Inflate the views and set the view to the containing window
+     */
     private void initViews() {
         mInitialized = false;
         mWindowCreated = false;
@@ -113,7 +107,6 @@ public class Widgetbar {
         dragLayer.setDragScoller(workspace);
 
         mWindow.setContentView(mRootView);
-        // mWindow.getWindow().setWindowAnimations(R.style.Animation_Widgetbar);
 
         WindowManager.LayoutParams lp = mWindow.getWindow().getAttributes();
 
@@ -134,9 +127,11 @@ public class Widgetbar {
             lp.width = (int) screenWidth;
         }
         mWindow.getWindow().setAttributes(lp);
-
     }
 
+    /**
+     * Release the resources binded with the widgetbar
+     */
     public void destroyWidetbar() {
         if (mWindowAdded) {
             mWindow.getWindow().setWindowAnimations(0);
@@ -144,14 +139,23 @@ public class Widgetbar {
         }
     }
 
+    /**
+     * Get the workspace of the widgetbar
+     */
     public WidgetbarWorkspace getWorkspace() {
         return mWorkspace;
     }
 
+    /**
+     * Get the window of the current widgetbar
+     */
     public WidgetbarWindow getWidetbarWindow() {
         return mWindow;
     }
 
+    /**
+     * Get the data mode of the widgetbar
+     */
     public WidgetbarModel getModel() {
         return this.sModel;
     }
@@ -160,6 +164,10 @@ public class Widgetbar {
         return mAppWidgetHost;
     }
 
+    /**
+     * Get the instance, note that Wigetbar class is defined as a
+     * singleton.
+     */
     public static Widgetbar getInstance() {
         if (DEBUG)
             Log.d(TAG, "Getting Instance");
@@ -169,6 +177,9 @@ public class Widgetbar {
         return mInstance;
     }
 
+    /**
+     * Show the window and set the corresponding flags
+     */
     public void showWindow() {
         if (mWindow == null) {
             mWindow = new WidgetbarWindow(getContext());
@@ -193,6 +204,9 @@ public class Widgetbar {
         }
     }
 
+    /**
+     * Dismiss the bar
+     */
     public void hideWindow() {
         Log.d(TAG, "hiding Window");
         if (mWindowShown) {
@@ -201,29 +215,46 @@ public class Widgetbar {
         }
     }
 
+    /**
+     * Scroll to the left one of the current session
+     */
     public void scrollLeft() {
         mWorkspace.scrollLeft();
     }
+
+    /**
+     * Scroll to the right of the current session
+     */
     public void scrollRight() {
         mWorkspace.scrollRight();
     }
 
+    /**
+     * Guarantee that the window is shown in UI thread, to avoid exception.
+     */
     public void safeShowWindow() {
         mBinder.obtainMessage(WidgetbarBinder.MESSAGE_SHOW_WIDGETBAR)
                 .sendToTarget();
     }
 
+    /**
+     * Guarantee that the window is shown in UI thread, to avoid exception.
+     */
     public void safeHideWindow() {
         mBinder.obtainMessage(WidgetbarBinder.MESSAGE_HIDE_WIDGETBAR)
                 .sendToTarget();
     }
 
+    /**
+     * Check whether the widgetbar window is shown or not.
+     */
     public boolean isWindowShown() {
         return mWindowShown;
     }
 
     /**
-     * Bind items to the widgetbar.
+     * Bind items to the widgetbar. Work through the handler to guarantee that
+     * it's running through UI thread. Otherwise, it may cause exception
      *
      * @param binder
      *            Handler working on the UI Thread

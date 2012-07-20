@@ -17,7 +17,6 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
-//import android.util.Log;
 
 /**
  * The workspace is a wide area with a finite number of sessions. Each session

@@ -149,7 +149,7 @@ public class DragLayer extends FrameLayout implements DragController {
 
 	/**
 	 * Used to create a new DragLayer from XML.
-	 * 
+	 *
 	 * @param context
 	 *            The application's context.
 	 * @param attrs
@@ -616,7 +616,7 @@ public class DragLayer extends FrameLayout implements DragController {
 
 	/**
 	 * Specifies the view that must be ignored when looking for a drop target.
-	 * 
+	 *
 	 * @param view
 	 *            The view that will not be taken into account while looking for
 	 *            a drop target.
@@ -627,7 +627,7 @@ public class DragLayer extends FrameLayout implements DragController {
 
 	/**
 	 * Specifies the delete region.
-	 * 
+	 *
 	 * @param region
 	 *            The rectangle in screen coordinates of the delete region.
 	 */
