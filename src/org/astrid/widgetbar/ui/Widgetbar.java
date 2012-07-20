@@ -32,7 +32,6 @@ import android.view.WindowManager;
  * Manage the views, work closely with the model, prepare and manage
  * the views of the of the widgetbar, work as a controller for the
  * the user interface.
- *
  */
 public class Widgetbar {
     private static final String TAG = "Widgetbar";
@@ -45,9 +44,9 @@ public class Widgetbar {
 
     private static final Object sLock = new Object();
     private static final WidgetbarModel sModel = new WidgetbarModel();
+    private static WidgetbarWorkspace mWorkspace;
     private LayoutInflater mInflater;
     private DragLayer mDragLayer;
-    private WidgetbarWorkspace mWorkspace;
     private AppWidgetManager mAppWidgetManager;
 
     private WidgetbarWindow mWindow;
@@ -202,10 +201,12 @@ public class Widgetbar {
     }
 
     public void scrollLeft() {
-        mWorkspace.scrollLeft();
+        mBinder.obtainMessage(WidgetbarBinder.MESSAGE_SCROLL_LEFT)
+                .sendToTarget();
     }
     public void scrollRight() {
-        mWorkspace.scrollRight();
+        mBinder.obtainMessage(WidgetbarBinder.MESSAGE_SCROLL_RIGHT)
+                .sendToTarget();
     }
 
     public void safeShowWindow() {
@@ -316,6 +317,8 @@ public class Widgetbar {
         static final int MESSAGE_BIND_APPWIDGETS = 0x1;
         static final int MESSAGE_SHOW_WIDGETBAR = 0x2;
         static final int MESSAGE_HIDE_WIDGETBAR = 0x3;
+        static final int MESSAGE_SCROLL_LEFT = 0x4;
+        static final int MESSAGE_SCROLL_RIGHT = 0x5;
         private final LinkedList<WidgetbarAppWidgetInfo> mAppWidgets;
         private final WeakReference<Widgetbar> mWidgetbar;
         public boolean mTerminate = false;
@@ -367,6 +370,12 @@ public class Widgetbar {
                 break;
             case MESSAGE_HIDE_WIDGETBAR:
                 widgetbar.hideWindow();
+                break;
+            case MESSAGE_SCROLL_LEFT:
+                mWorkspace.scrollLeft();
+                break;
+            case MESSAGE_SCROLL_RIGHT:
+                mWorkspace.scrollRight();
                 break;
             }
         }
