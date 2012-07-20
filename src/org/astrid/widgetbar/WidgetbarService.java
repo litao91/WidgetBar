@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.KeyEvent;
 
 public class WidgetbarService extends Service {
 	private Widgetbar mWidgetbar;
@@ -26,6 +27,24 @@ public class WidgetbarService extends Service {
 			Log.d("WigetbarService", "IPC calling hide");
 			Widgetbar.getInstance().safeHideWindow();
 		}
+        public boolean onActivityKeyPressed(int keyCode) {
+            switch(keyCode) {
+                case KeyEvent.KEYCODE_DPAD_DOWN:
+                    Widgetbar.getInstance().safeHideWindow();
+                    return true;
+                case KeyEvent.KEYCODE_DPAD_UP:
+                    Widgetbar.getInstance().safeShowWindow();
+                    return true;
+                case KeyEvent.KEYCODE_DPAD_LEFT:
+                    Widgetbar.getInstance().scrollLeft();
+                    return true;
+                case KeyEvent.KEYCODE_DPAD_RIGHT:
+                    Widgetbar.getInstance().scrollRight();
+                    return true;
+                default:
+                    return false;
+            }
+        }
 	};
 
 	@Override
