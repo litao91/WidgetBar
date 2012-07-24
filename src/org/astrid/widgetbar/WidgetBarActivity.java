@@ -65,24 +65,24 @@ public class WidgetBarActivity extends Activity {
 						mWidgetbar.hideWindow();
 					}
 				});
-        ((Button) findViewById(R.id.right_button)).
-            setOnClickListener(new OnClickListener(){
-                public void onClick(View v) {
-                    mWidgetbar.scrollRight();
-                }
-            });
-        ((Button) findViewById(R.id.left_button)).
-            setOnClickListener(new OnClickListener(){
-                public void onClick(View v){
-                    Log.d("WidgetbarActivity", "Left");
-                    mWidgetbar.scrollLeft();
-                }
-            });
+		((Button) findViewById(R.id.right_button))
+				.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						mWidgetbar.scrollRight();
+					}
+				});
+		((Button) findViewById(R.id.left_button))
+				.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						Log.d("WidgetbarActivity", "Left");
+						mWidgetbar.scrollLeft();
+					}
+				});
 	}
 
 	/**
 	 * Add a widget to the workspace
-	 *
+	 * 
 	 * Steps to add a new widget:
 	 * <ol>
 	 * <li>Calculate the grid spans needed to fit the widget</li>
@@ -93,13 +93,13 @@ public class WidgetBarActivity extends Activity {
 	 * <li>Create the view of the widget with AppWidgetHost</li>
 	 * <li>Add the view to the current session</li>
 	 * </ol>
-	 *
+	 * 
 	 * @param data
 	 *            The intent describing the appWidgetId
 	 * @param cellInfo
 	 *            The cell Information of current workspace, containing the
 	 *            vacant cells (positions and spans) in particular
-	 *
+	 * 
 	 */
 	void addAppWidget(Intent data, CellLayout.CellInfo cellInfo,
 			boolean insertAtFirst) {
@@ -151,7 +151,7 @@ public class WidgetBarActivity extends Activity {
 
 	/**
 	 * Find a empty slot for a specified size
-	 *
+	 * 
 	 * @param cellInfo
 	 *            Information for the cells
 	 * @param xy
