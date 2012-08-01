@@ -38,7 +38,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
 /**
- * A ViewGroup that coordinated dragging across its dscendants
+ * A ViewGroup that coordinated dragging across its descendants
  */
 public class DragLayer extends FrameLayout implements DragController {
 	private static final int SCROLL_DELAY = 600;

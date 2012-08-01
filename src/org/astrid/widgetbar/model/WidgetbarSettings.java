@@ -3,6 +3,9 @@ package org.astrid.widgetbar.model;
 import android.provider.BaseColumns;
 import android.net.Uri;
 
+/**
+ * Define the settings (Schema) for the database.
+ */
 public class WidgetbarSettings {
 	public static interface BaseBarColumns extends BaseColumns {
 		public static final String TITLE = "title";

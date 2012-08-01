@@ -2,6 +2,9 @@ package org.astrid.widgetbar.model;
 
 import android.content.ContentValues;
 
+/**
+ * Base class for all the items. New item types should override this class.
+ */
 public class ItemInfo {
 	public static final int NO_ID = -1;
 	/**

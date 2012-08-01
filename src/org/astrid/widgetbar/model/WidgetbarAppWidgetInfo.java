@@ -3,6 +3,9 @@ package org.astrid.widgetbar.model;
 import android.appwidget.AppWidgetHostView;
 import android.content.ContentValues;
 
+/**
+ * The specific class for AppWidget items.
+ */
 public class WidgetbarAppWidgetInfo extends ItemInfo {
 	/**
 	 * Identifier for this widget when talking with AppWidgetManager for updates

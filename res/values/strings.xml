@@ -10,5 +10,6 @@
     <string name="hide_widgetbar">Hide</string>
     <string name="left_btn">Left</string>
     <string name="right_btn">Right</string>
+    <string name="error_text">Error on showing Widget!</string>
 
 </resources>

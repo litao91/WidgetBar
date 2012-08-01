@@ -20,6 +20,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+/**
+ * Content Provider (Database) of the application. Implemented as a content
+ * provider to get more flexibility
+ */
 public class WidgetbarProvider extends ContentProvider {
 	private static final String DATABASE_NAME = "Widgetbar.db";
 	private static final int DATABASE_VERSION = 1;

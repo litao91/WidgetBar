@@ -71,6 +71,9 @@ public class WidgetbarModel {
 	private static final AtomicInteger sWorkspaceLoaderCount = new AtomicInteger(
 			1);
 
+	/**
+	 * Load items from database. Implemented to run in another thread.
+	 */ 
 	private class WidgetbarItemsLoader implements Runnable {
 		private volatile boolean mStopped;
 		private volatile boolean mRunning;
